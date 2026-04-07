@@ -1,10 +1,15 @@
 import express, { Request, Response } from 'express';
 import { ethers } from 'ethers';
 import bodyParser from 'body-parser';
-import dotenv from 'dotenv';
 import cors from 'cors';
+import config from './config';
+import { Order, OrderItem } from './types/OrdersInterfaces';
+import { initializeDatabase } from './db/init';
 
-dotenv.config();
+
+const { sepolia } = config;
+
+
 
 const app = express();
 app.use(express.json());
@@ -17,9 +22,9 @@ app.use(cors());
 const ORDER_EXPIRY_MINUTES = 60; // fixed typo from ORDER_EXPIIRY_MINUTES
 
 // Environment variables with type safety
-const XPUB: string = process.env.SEPOLIA_XPUB || '';
-const PROVIDER_URL: string = process.env.SEPOLIA_RPC_URL || '';
-const USDT_ADDRESS: string = process.env.SEPOLIA_MOCK_USDT_ADDRESS || '';
+const XPUB: string = sepolia.SEPOLIA_XPUB || '';
+const PROVIDER_URL: string = sepolia.SEPOLIA_RPC_URL || '';
+const USDT_ADDRESS: string = sepolia.SEPOLIA_MOCK_USDT_ADDRESS || '';
 
 if (!XPUB || !PROVIDER_URL || !USDT_ADDRESS) {
     throw new Error('Missing required environment variables');
@@ -31,22 +36,7 @@ const xpubNode = ethers.HDNodeWallet.fromExtendedKey(XPUB);
 // -----------------------------------------------------------------
 // 2. Data Models (matching your in‑memory store)
 // -----------------------------------------------------------------
-interface OrderItem {
-    giftCardId: number;
-    quantity: number;
-    unitAmountUsd: number;
-    totalAmountUsd: number;
-}
 
-interface Order {
-    id: number;
-    address: string;
-    paid: boolean;
-    expectedAmount: bigint;      // in smallest unit (e.g., 6 decimals for USDT)
-    email: string;
-    items: OrderItem[];
-    expiresAt: Date;
-}
 
 // In‑memory store
 let orders: Order[] = [];
@@ -188,7 +178,11 @@ app.get('/order-status/:id', (req: Request, res: Response) => {
 // 9. Start server
 // -----------------------------------------------------------------
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`🛒 Gift card shop listening on http://localhost:${PORT}`);
-    console.log(`Mock USDT contract at: https://sepolia.etherscan.io/address/${USDT_ADDRESS}`);
+initializeDatabase().then(() => {
+    app.listen(PORT, () => {
+        console.log(`🛒 Gift card shop listening on http://localhost:${PORT}`);
+        console.log(`Mock USDT contract at: https://sepolia.etherscan.io/address/${USDT_ADDRESS}`);
+    });
+}).catch((error) => {
+    console.error("Error initializing database:", error);
 });
