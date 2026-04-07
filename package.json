@@ -16,7 +16,10 @@
     "body-parser": "^2.2.2",
     "cors": "^2.8.6",
     "ethers": "^6.16.0",
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "mysql2": "^3.20.0",
+    "reflect-metadata": "^0.2.2",
+    "typeorm": "^0.3.28"
   },
   "devDependencies": {
     "@types/body-parser": "^1.19.6",
