@@ -8,6 +8,7 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_ROOT_USER: root
       MYSQL_DATABASE: giftcard_shop
       MYSQL_USER: appuser
       MYSQL_PASSWORD: 12345678

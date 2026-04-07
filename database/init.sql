@@ -1,12 +1,42 @@
 use giftcard_shop;
 
--- product catalog
+-- gift_cards table
 create table if not exists gift_cards (
     id int auto_increment primary key,
-    name varchar(100) not null,
+    name varchar(100) not null,    -- e.g., "Steam Gift Card"
+    denomination decimal(10,2) not null, -- e.g., 5.00, 10.00, 20.00
     active boolean not null default true,
-    created_at timestamp default current_timestamp
+    created_at timestamp default current_timestamp,
+    unique key (name, denomination) -- prevent duplicates
 );
+
+
+--populate gift_cards with some initial data
+insert into gift_cards (name, denomination) values
+('Steam Gift Card', 5.00),
+('Steam Gift Card', 10.00),
+('Steam Gift Card', 20.00),
+('Steam Gift Card', 50.00),
+('Steam Gift Card', 100.00),
+('Amazon Gift Card', 10.00),
+('Amazon Gift Card', 25.00),
+('Amazon Gift Card', 50.00),
+('Eneba Gift Card', 10.00),
+('Eneba Gift Card', 25.00),
+('Eneba Gift Card', 50.00);
+
+-- Inventory now directly per gift card (which already includes denomination)
+create table if not exists gift_card_inventory (
+    id int auto_increment primary key,
+    gift_card_id int not null,
+    quantity int not null,  -- available stock for that specific denomination
+    foreign key (gift_card_id) references gift_cards(id)
+);
+
+
+-- populate inventory with some initial stock (e.g., 10 cards of each type)
+insert into gift_card_inventory (gift_card_id, quantity)
+select id, 10 from gift_cards;
 
 -- orders
 create table if not exists orders (
@@ -38,14 +68,23 @@ create table if not exists order_items (
 
 -- gift card codes
 create table if not exists gift_card_codes (
-  id serial primary key,
-  order_item_id BIGINT UNSIGNED NOT NULL,
-  code varchar(255) not null, -- the actual gift card code to be delivered to the customer
-  delivered boolean not null default false, -- whether the code has been delivered to the customer
-  delivered_at timestamp, -- when the code was delivered
-  expires_at timestamp, -- If the code itself has an expiry (optional)
-  foreign key (order_item_id) references order_items(id)
+    id serial primary key,
+    code varchar(255) not null unique,
+    gift_card_id int not null,            -- references gift_cards(id) which includes denomination
+    order_item_id bigint unsigned null,   -- null when code is still in pool
+    delivered_at timestamp null,          -- when assigned to an order
+    expires_at timestamp null,            -- optional code expiry
+    foreign key (gift_card_id) references gift_cards(id),
+    foreign key (order_item_id) references order_items(id)
 );
+
+--populate gift_card_codes with some dummy codes for testing (e.g., 10 codes per gift card type)
+insert into gift_card_codes (code, gift_card_id)
+select concat(g.name, '_', g.denomination, '_CODE_', LPAD(FLOOR(RAND() * 1000000), 6, '0')), g.id
+from gift_cards g;
+
+
+
 
 --payment transactions (for record keeping, especially if we want to support refunds in the future)
 create table if not exists payment_transactions (
