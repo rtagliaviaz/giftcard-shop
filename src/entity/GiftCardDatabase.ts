@@ -4,6 +4,7 @@ import { Orders } from "./Orders";
 import { OrderItems } from "./OrderItems";
 import { GiftCardCodes } from "./GiftCardCodes";
 import {PaymentTransactions} from "./PaymentTransactions";
+import {Settings} from "./Settings";
 
 
 export {
@@ -12,5 +13,6 @@ export {
     Orders,
     OrderItems,
     GiftCardCodes,
-    PaymentTransactions
+    PaymentTransactions,
+    Settings,
 }

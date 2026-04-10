@@ -6,19 +6,19 @@ export class OrderItems {
     @PrimaryGeneratedColumn()
     id!: number;
 
-    @Column({ type: "bigint", unsigned: true })
+    @Column({ type: "bigint", unsigned: true, name: "order_id" })
     orderId!: number; // Foreign key reference to Orders table
     
-    @Column({ type: "int" })
+    @Column({ type: "int", name: "gift_card_id" })
     giftCardId!: number; // Foreign key reference to GiftCard table
 
-    @Column({ type: "int" })
+    @Column({ type: "int", name: "quantity" })
     quantity!: number; // Quantity of this gift card in the order
     
-    @Column({ type: "int" })
+    @Column({ type: "int", name: "unit_amount_usd" })
     unitAmount!: number; // Unit price of the gift card at the time of order
 
-    @Column({ type: "int" })
+    @Column({ type: "int", name: "total_amount_usd" })
     totalAmount!: number; // Total price for this line item (quantity * unitAmount)
 
 

@@ -1,7 +1,8 @@
-import {Entity, PrimaryGeneratedColumn, Column, ManyToOne} from "typeorm";
+// GiftCardCodes.ts
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from "typeorm";
 import { GiftCard, OrderItems } from "./GiftCardDatabase";
 
-@Entity({ name: "gift_card_codes" }) // Maps this class to the 'gift_card_codes' table
+@Entity({ name: "gift_card_codes" })
 export class GiftCardCodes {
     @PrimaryGeneratedColumn()
     id!: number;
@@ -9,20 +10,20 @@ export class GiftCardCodes {
     @Column({ type: "varchar", length: 255, nullable: false, unique: true })
     code!: string;
 
-    @ManyToOne(() => GiftCard, (giftCard) => giftCard.id, {
-        onDelete: "CASCADE", // If a gift card is deleted, remove its code records
-        onUpdate: "CASCADE", // If a gift card's ID changes, update the code records
-    })
-    giftCard!: GiftCard; // This will allow us to easily access the related GiftCard entity when needed
-    @ManyToOne(() => OrderItems, (orderItem) => orderItem.id, {
-        onDelete: "SET NULL", // If an order item is deleted, set the orderItem reference to null
-        onUpdate: "CASCADE", // If an order item's ID changes, update the code records
-    })
-    orderItem!: OrderItems | null; // This will allow us to easily access the related OrderItems entity when needed, but it can be null if the code is not yet associated with an order item
+    @ManyToOne(() => GiftCard)
+    @JoinColumn({ name: "gift_card_id" }) // matches your SQL column
+    giftCard!: GiftCard;
 
-    @Column({ type: "timestamp", nullable: true })
-    createdAt!: Date; // Timestamp when the gift card code was created
+    @ManyToOne(() => OrderItems, { nullable: true })
+    @JoinColumn({ name: "order_item_id" }) // matches your SQL column
+    orderItem!: OrderItems | null;
 
-    @Column({ type: "timestamp", nullable: true })
-    expiresAt!: Date | null; // Timestamp when the gift card code expires, null if not yet expired 
+    @Column({ type: "timestamp", nullable: true, name: "delivered_at" })
+    deliveredAt!: Date | null;
+
+    @Column({ type: "timestamp", nullable: true, name: "expires_at" })
+    expiresAt!: Date | null;
+
+    @Column({ type: "boolean", default: false })
+    used!: boolean; // to track if the backend already sent this code to a customer (to avoid sending duplicates in case of retries)
 }
