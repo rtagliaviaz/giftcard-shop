@@ -9,8 +9,11 @@ const config = {
   sepolia: {
     SEPOLIA_RPC_URL: process.env.SEPOLIA_RPC_URL,
     SEPOLIA_XPUB: process.env.SEPOLIA_XPUB,
-    SEPOLIA_MOCK_USDT_ADDRESS: process.env.SEPOLIA_MOCK_USDT_ADDRESS
+    SEPOLIA_MOCK_USDT_ADDRESS: process.env.SEPOLIA_MOCK_USDT_ADDRESS,
+    SEPOLIA_RPC_WS_URL: process.env.SEPOLIA_RPC_WS_URL
   } as SepoliaConfigInterface,
+  port: process.env.PORT,
+  clientUrl: process.env.CLIENT_URL,
   mysql: {
     giftcardShopDb: {
       host: process.env.MYSQL_DATABASE_HOST,
