@@ -1,17 +1,32 @@
 
-import { SepoliaConfigInterface, MySQLConfigInterface } from '../types/ConfigInterfaces';
+import { MySQLConfigInterface, AppConfigInterface, NetworkConfigInterface   } from '../types/ConfigInterfaces';
 import dotenv from 'dotenv';
 dotenv.config();
 
 
-const config = {
+const config: AppConfigInterface = {
   //sepolia with type safety
-  sepolia: {
-    SEPOLIA_RPC_URL: process.env.SEPOLIA_RPC_URL,
-    SEPOLIA_XPUB: process.env.SEPOLIA_XPUB,
-    SEPOLIA_MOCK_USDT_ADDRESS: process.env.SEPOLIA_MOCK_USDT_ADDRESS,
-    SEPOLIA_RPC_WS_URL: process.env.SEPOLIA_RPC_WS_URL
-  } as SepoliaConfigInterface,
+  networks:{
+    sepolia: {
+      NAME: process.env.SEPOLIA_NAME,
+      CHAIN_ID: Number(process.env.SEPOLIA_CHAIN_ID),
+      RPC_URL: process.env.SEPOLIA_RPC_URL,
+      XPUB: process.env.SEPOLIA_XPUB,
+      CURRENCY_CONTRACT_ADDRESS: process.env.SEPOLIA_MOCK_USDT_ADDRESS,
+      RPC_WS_URL: process.env.SEPOLIA_RPC_WS_URL,
+      CURRENCY: process.env.SEPOLIA_CURRENCY,
+      DECIMALS: Number(process.env.SEPOLIA_DECIMALS),
+    } as NetworkConfigInterface,
+    baseSepolia: {
+      NAME: process.env.BASE_SEPOLIA_NAME,
+      CHAIN_ID: Number(process.env.BASE_SEPOLIA_CHAIN_ID),
+      RPC_URL: process.env.BASE_SEPOLIA_RPC_URL,
+      RPC_WS_URL: process.env.BASE_SEPOLIA_WS_URL, 
+      CURRENCY_CONTRACT_ADDRESS: process.env.BASE_SEPOLIA_USDC_ADDRESS, 
+      CURRENCY: process.env.BASE_SEPOLIA_CURRENCY,
+      DECIMALS: Number(process.env.BASE_SEPOLIA_DECIMALS),
+    } as NetworkConfigInterface 
+  },
   port: process.env.PORT,
   clientUrl: process.env.CLIENT_URL,
   mysql: {

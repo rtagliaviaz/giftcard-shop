@@ -19,6 +19,9 @@ export class Orders {
     @Column({ type: "varchar", length: 10})
     currency!: string; // Currency code, e.g. "USDT"
 
+    @Column({type: "varchar", name: "network"})
+    network!: string; // Network name, e.g. "sepolia"
+
     @Column({ type: "varchar", length: 255})
     email!: string; // Buyer's email address
 

@@ -47,12 +47,13 @@ describe('POST /api/create-order', () => {
         items: [{ giftCardId: 1, quantity: 1, unitAmountUSD: 10 }],
         totalAmountRaw: 10000000,
         termsAccepted: true,
+        network: 'sepolia'
       });
 
 
-if (response.status !== 201) {
-  console.error('Error response:', response.body);
-}
+    if (response.status !== 201) {
+      console.error('Error response:', response.body);
+    }
 
     expect(response.status).toBe(201);
     expect(response.body).toHaveProperty('uid');
@@ -66,6 +67,7 @@ if (response.status !== 201) {
         items: [{ giftCardId: 1, quantity: 1, unitAmountUSD: 10 }],
         totalAmountRaw: 10000000,
         termsAccepted: true,
+        network: 'base-sepolia'
       });
 
     expect(response.status).toBe(400);
@@ -79,6 +81,7 @@ if (response.status !== 201) {
         email: 'test@example.com',
         totalAmountRaw: 10000000,
         termsAccepted: true,
+        network: 'base-sepolia'
       });
 
     expect(response.status).toBe(400);
@@ -97,6 +100,7 @@ if (response.status !== 201) {
         items: [{ giftCardId: 1, quantity: 1, unitAmountUSD: 10 }],
         totalAmountRaw: 10000000,
         termsAccepted: true,
+        network: 'sepolia'
       });
 
     const updatedSetting = await settingsRepo.findOneBy({ settingKey: 'last_address_index' });
@@ -113,6 +117,7 @@ if (response.status !== 201) {
         items: [{ giftCardId: 1, quantity: 1, unitAmountUSD: 10 }],
         totalAmountRaw: 10000000,
         termsAccepted: true,
+        network: 'sepolia'
       });
 
     expect(response.status).toBe(201);
@@ -132,6 +137,7 @@ describe('GET /api/order-status/:uid', () => {
         items: [{ giftCardId: 1, quantity: 1, unitAmountUSD: 10 }],
         totalAmountRaw: 10000000,
         termsAccepted: true,
+        network: 'sepolia'
       });
 
     const uid = createResponse.body.uid

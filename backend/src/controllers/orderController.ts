@@ -4,6 +4,8 @@ import { Orders, OrderItems, Settings } from '../entity/GiftCardDatabase';
 import { generateAddressFromXpub } from '../services/walletService';
 import { nanoid } from 'nanoid';
 import { Order, OrderItem } from '../types/OrdersInterfaces';
+import { SUPPORTED_NETWORKS } from '../constants/supportedNetworks';
+import config from '../config';
 
 // Helper to get next address index (sequential)
 async function getNextAddressIndex(): Promise<number> {
@@ -18,11 +20,18 @@ async function getNextAddressIndex(): Promise<number> {
 }
 
 export const createOrder = async (req: Request, res: Response) => {
-  const { email, items, totalAmountRaw, termsAccepted, currency = 'USDT' } = req.body;
+  const { email, items, totalAmountRaw, termsAccepted, network } = req.body;
 
   if (!email || !items?.length) {
     return res.status(400).json({ error: 'Missing email or items' });
   }
+
+  if (!SUPPORTED_NETWORKS.includes(network)) {
+    return res.status(400).json({ error: 'Unsupported network' });
+  }
+
+  const networks = config.networks;
+  const currency = networks[network as keyof typeof networks].CURRENCY;
 
   const addressIndex = await getNextAddressIndex();
   const address = generateAddressFromXpub(addressIndex);
@@ -51,6 +60,7 @@ export const createOrder = async (req: Request, res: Response) => {
       createdAt: new Date(),
       swept: false,
       paidAt: null,
+      network,
     });
     const savedOrder = await orderRepo.save(newOrder);
 

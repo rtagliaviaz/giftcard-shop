@@ -7,7 +7,7 @@ await jest.unstable_mockModule('../db/init', () => ({
 }));
 
 await jest.unstable_mockModule('../services/eventListener', () => ({
-  startEventListener: jest.fn(),
+  startEventListeners: jest.fn(),
 }));
 
 await jest.unstable_mockModule('socket.io', () => ({
@@ -25,7 +25,7 @@ await jest.unstable_mockModule('../config', () => ({
 
 // Import after mocks
 const { initializeDatabase } = await import('../db/init');
-const { startEventListener } = await import('../services/eventListener');
+const { startEventListeners } = await import('../services/eventListener');
 const { Server: SocketServer } = await import('socket.io');
 const { startServer } = await import('../server');
 
@@ -42,7 +42,7 @@ describe('startServer', () => {
     server = await startServer();
 
     expect(initializeDatabase).toHaveBeenCalled();
-    expect(startEventListener).toHaveBeenCalled();
+    expect(startEventListeners).toHaveBeenCalled();
     expect(SocketServer).toHaveBeenCalled();
     expect(server.listening).toBe(true);
   });

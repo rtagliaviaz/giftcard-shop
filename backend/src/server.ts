@@ -2,7 +2,7 @@ import app from './app';
 import http from 'http';
 import { Server as SocketServer } from 'socket.io';
 import config from './config';
-import { startEventListener } from './services/eventListener';
+import { startEventListeners } from './services/eventListener';
 import { initializeDatabase } from './db/init';
 import { SOCKET_EVENTS } from './constants/socketEvents';
 
@@ -26,7 +26,7 @@ export async function startServer() {
     });
   });
 
-  startEventListener();
+  startEventListeners();
 
   const PORT = config.port;
   server.listen(PORT, () => {

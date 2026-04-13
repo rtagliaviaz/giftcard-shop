@@ -5,7 +5,7 @@ import config from '../config';
 
 export function generateAddressFromXpub(index: number): string {
     // Load the account xpub (depth 3: m/44'/60'/0')
-    const hdNode = HDKey.fromExtendedKey(config.sepolia.SEPOLIA_XPUB);
+    const hdNode = HDKey.fromExtendedKey(config.networks.sepolia.XPUB);
     
     // Derive external chain (0) – non‑hardened
     const chainNode = hdNode.deriveChild(0);
