@@ -1,9 +1,10 @@
 export interface OrderItem {
     giftCardId: number;
     quantity: number;
-    unitAmountUsd: number;
-    totalAmountUsd: number;
+    unitAmountUSD: number; // price per card in USD
+    // totalAmount is computed as unitAmountUSD * quantity
 }
+
 
 export interface Order {
     id: number;

@@ -2,7 +2,7 @@ import { ethers } from 'ethers';
 import { AppDataSource } from '../db/data-source';
 import { Orders } from '../entity/GiftCardDatabase';
 import config from '../config';
-import { deliverGiftCards } from './giftCardSerivce'; // your fulfillment logic
+import { deliverGiftCards } from './giftCardService'; // your fulfillment logic
 
 const {sepolia} = config;
 
@@ -19,7 +19,7 @@ export async function startEventListener() {
 
 
 
-  console.log('Listening for USDT Transfer events...');
+  console.log('👂 Listening for USDT Transfer events...');
 
 
   usdt.on('Transfer', async (from, to, value, event) => {

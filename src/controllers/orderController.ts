@@ -3,13 +3,14 @@ import { AppDataSource } from '../db/data-source';
 import { Orders, OrderItems, Settings } from '../entity/GiftCardDatabase';
 import { generateAddressFromXpub } from '../services/walletService';
 import { nanoid } from 'nanoid';
+import { Order, OrderItem } from '../types/OrdersInterfaces';
 
 // Helper to get next address index (sequential)
 async function getNextAddressIndex(): Promise<number> {
     const settingsRepo = AppDataSource.getRepository(Settings);
     let setting = await settingsRepo.findOneBy({ settingKey: 'last_address_index' });
     if (!setting) {
-        setting = settingsRepo.create({ settingKey: 'last_address_index', value: 0 });
+      setting = settingsRepo.create({ settingKey: 'last_address_index', value: 0 });
     }
     setting.value += 1;
     await settingsRepo.save(setting);
@@ -18,8 +19,6 @@ async function getNextAddressIndex(): Promise<number> {
 
 export const createOrder = async (req: Request, res: Response) => {
   const { email, items, totalAmountRaw, termsAccepted, currency = 'USDT' } = req.body;
-
-  console.log('Create order request:', { email, items, totalAmountRaw, termsAccepted, currency });
 
   if (!email || !items?.length) {
     return res.status(400).json({ error: 'Missing email or items' });
@@ -56,14 +55,13 @@ export const createOrder = async (req: Request, res: Response) => {
     const savedOrder = await orderRepo.save(newOrder);
 
     const itemsRepo = queryRunner.manager.getRepository(OrderItems);
-    console.log('Creating order items:', items);  
-    const orderItems = items.map((item: any) =>
+    const orderItems = items.map((item: OrderItem) => //change the any tyoe for an actual type
       itemsRepo.create({
         order: savedOrder,
         giftCardId: item.giftCardId,
         quantity: item.quantity,
-        unitAmount: item.amountUSD,
-        totalAmount: item.totalUSD,
+        unitAmount: item.unitAmountUSD,
+        totalAmount: item.unitAmountUSD * item.quantity,
       })
     );
     await itemsRepo.save(orderItems);
@@ -97,7 +95,7 @@ export const getOrderStatus = async (req: Request, res: Response) => {
   // Convert expected amount back to human‑readable (if USDT with 6 decimals)
   const expectedAmountHuman = order.expectedAmount / 1_000_000;
 
-  res.json({
+  res.status(200).json({
     paid: order.status === 'paid',
     address: order.address,
     expectedAmount: expectedAmountHuman,

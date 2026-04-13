@@ -18,7 +18,7 @@ export class PaymentTransactions {
     @Column({ type: "int", nullable: false })
     confirmations!: number; // Number of confirmations for the transaction
 
-    @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
+    @Column({ type: "datetime", default: () => "CURRENT_TIMESTAMP" })
     receivedAt!: Date; // Timestamp when the transaction was recorded
 
     @ManyToOne(() => Orders, (order) => order.id, {

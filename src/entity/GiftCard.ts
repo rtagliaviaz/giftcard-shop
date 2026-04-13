@@ -1,5 +1,5 @@
 // src/entity/GiftCard.ts
-import { Entity, PrimaryGeneratedColumn, Column, Unique, OneToMany } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, Unique, OneToMany, CreateDateColumn} from "typeorm";
 import { OrderItems, GiftCardInventory } from "./GiftCardDatabase";
 
 @Entity({ name: "gift_cards" }) // Maps this class to the 'gift_cards' table
@@ -13,8 +13,8 @@ export class GiftCard {
     denomination!: number;
     @Column({ type: "boolean", default: true })
     active!: boolean;
-    @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
-    created_at!: Date;
+    @CreateDateColumn({ type: "datetime", name: "created_at" })
+    createdAt!: Date;
 
     //Relationships
     @OneToMany(() => OrderItems, (orderItem) => orderItem.giftCard)

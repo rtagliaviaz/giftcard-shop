@@ -1,18 +1,15 @@
 import app from './app';
 import http from 'http';
-import {Server as SocketServer} from 'socket.io';
+import { Server as SocketServer } from 'socket.io';
 import config from './config';
 import { startEventListener } from './services/eventListener';
 import { initializeDatabase } from './db/init';
 import { SOCKET_EVENTS } from './constants/socketEvents';
-// import { startSweeper } from './services/sweeper';
 
-
-async function startServer() {
+export async function startServer() {
   await initializeDatabase();
 
   const server = http.createServer(app);
-
   const io = new SocketServer(server, {
     cors: {
       origin: config.clientUrl,
@@ -20,7 +17,7 @@ async function startServer() {
     },
   });
 
-  (global as any).io = io; // Make io accessible globally
+  (global as any).io = io;
 
   io.on(SOCKET_EVENTS.CONNECTION, (socket) => {
     console.log('New client connected:', socket.id);
@@ -29,14 +26,12 @@ async function startServer() {
     });
   });
 
-  startEventListener(); // start listening for Transfer events
-  // startSweeper(); // start the sweeper to check for expired gift cards
+  startEventListener();
 
   const PORT = config.port;
   server.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
   });
+
+  return server;
 }
-
-
-startServer();

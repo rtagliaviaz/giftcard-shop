@@ -1,4 +1,4 @@
-import {Entity, PrimaryGeneratedColumn, Column, OneToMany, Index} from "typeorm";
+import {Entity, PrimaryGeneratedColumn, Column, OneToMany, Index, CreateDateColumn} from "typeorm";
 import { OrderItems, PaymentTransactions } from "./GiftCardDatabase";
 
 @Entity({name: "orders"}) // Maps this class to the 'orders' table
@@ -28,19 +28,19 @@ export class Orders {
     @Column({ type: "bigint", name: "expected_amount" })
     expectedAmount!: number
 
-    @Column({ type: "timestamp", nullable: true , name: "paid_at" })
+    @Column({ type: "datetime", nullable: true , name: "paid_at" })
     paidAt!: Date | null; // Timestamp when the order was paid
 
-    @Column({ type: "timestamp", name: "expires_at" })
+    @Column({ type: "datetime", name: "expires_at" })
     expiresAt!: Date; // Timestamp when the order expires
 
-    @Column({ type: "timestamp", nullable: true, name: "whitdrawal_deadline" })
+    @Column({ type: "datetime", nullable: true, name: "whitdrawal_deadline" })
     withdrawnDeadline!: Date | null; // Timestamp by which the order must be withdrawn if not paid
 
     @Column({ type: "boolean", default: false, name: "terms_accepted" })
     termsAccepted!: boolean; // Whether the buyer accepted the terms and conditions
 
-    @Column({ type: "timestamp", name: "created_at" })
+    @CreateDateColumn({ type: "datetime", name: "created_at" })
     createdAt!: Date; // Timestamp when the order was created
 
     @Column({ type: "boolean", default: false })

@@ -1,5 +1,12 @@
 use giftcard_shop;
 
+-- index tracking for address generation
+CREATE TABLE IF NOT EXISTS settings (
+  setting_key VARCHAR(50) PRIMARY KEY,
+  value INT NOT NULL
+);
+INSERT INTO settings (setting_key, value) VALUES ('last_address_index', 0);
+
 -- gift_cards table
 create table if not exists gift_cards (
     id int auto_increment primary key,
@@ -74,6 +81,7 @@ create table if not exists gift_card_codes (
     order_item_id bigint unsigned null,   -- null when code is still in pool
     delivered_at timestamp null,          -- when assigned to an order
     expires_at timestamp null,            -- optional code expiry
+    used boolean not null default false, -- to track if the backend already send this code to a customer (to avoid sending duplicates in case of retries)
     foreign key (gift_card_id) references gift_cards(id),
     foreign key (order_item_id) references order_items(id)
 );

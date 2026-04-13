@@ -18,10 +18,10 @@ export class GiftCardCodes {
     @JoinColumn({ name: "order_item_id" }) // matches your SQL column
     orderItem!: OrderItems | null;
 
-    @Column({ type: "timestamp", nullable: true, name: "delivered_at" })
+    @Column({ type: "datetime", nullable: true, name: "delivered_at" })
     deliveredAt!: Date | null;
 
-    @Column({ type: "timestamp", nullable: true, name: "expires_at" })
+    @Column({ type: "datetime", nullable: true, name: "expires_at" })
     expiresAt!: Date | null;
 
     @Column({ type: "boolean", default: false })

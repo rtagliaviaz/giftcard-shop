@@ -11,7 +11,8 @@
     "forceConsistentCasingInFileNames": true,
     "experimentalDecorators": true,    // Required for decorators
     "emitDecoratorMetadata": true,     // Required for TypeORM to understand types
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "types": ["node", "jest"]  // Include types for Node.js and Jest
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]
