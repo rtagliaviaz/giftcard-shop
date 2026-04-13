@@ -1,0 +1,22 @@
+# MYSQL 
+
+version: '3.8'
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: giftcard-shop-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_ROOT_USER: root
+      MYSQL_DATABASE: giftcard_shop
+      MYSQL_USER: appuser
+      MYSQL_PASSWORD: 12345678
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./backend/database/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+volumes:
+  mysql_data:
