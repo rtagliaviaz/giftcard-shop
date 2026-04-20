@@ -3,26 +3,35 @@ import app from '../app';
 import { AppDataSource } from '../db/data-source';
 import { initializeDatabase } from '../db/init';
 
-import { GiftCard, Settings } from '../entity/GiftCardDatabase';
+import { GiftCard, GiftCardType, Settings } from '../entity/GiftCardDatabase';
 
 beforeAll(async () => {
   process.env.NODE_ENV = 'test';
   await initializeDatabase();
 
-  // Seed gift card (as before)
+  const typeRepo = AppDataSource.getRepository(GiftCardType);
+  let steamType = await typeRepo.findOneBy({ name: 'Steam Gift Card' });
+  if (!steamType) {
+    steamType = typeRepo.create({
+      name: 'Steam Gift Card',
+      image: '/assets/steam.webp',
+      active: true,
+    });
+    await typeRepo.save(steamType);
+  }
+
   const giftCardRepo = AppDataSource.getRepository(GiftCard);
   const existingGiftCard = await giftCardRepo.findOneBy({ id: 1 });
   if (!existingGiftCard) {
     const giftCard = giftCardRepo.create({
       id: 1,
-      name: 'Steam Gift Card',
       denomination: 10.00,
       active: true,
+      type: steamType,
     });
     await giftCardRepo.save(giftCard);
   }
 
-  // Seed settings table
   const settingsRepo = AppDataSource.getRepository(Settings);
   let setting = await settingsRepo.findOneBy({ settingKey: 'last_address_index' });
   if (!setting) {
@@ -88,7 +97,7 @@ describe('POST /api/create-order', () => {
     expect(response.body).toHaveProperty('error', 'Missing email or items');
   });
 
-   it('should increment address index for each new order', async () => {
+  it('should increment address index for each new order', async () => {
     const settingsRepo = AppDataSource.getRepository(Settings);
     const initialSetting = await settingsRepo.findOneBy({ settingKey: 'last_address_index' });
     const initialIndex = initialSetting ? initialSetting.value : 0;
@@ -152,7 +161,7 @@ describe('GET /api/order-status/:uid', () => {
   });
 
   it ('should return 404 for non-existent uid', async () => {
-    const getResponse = await request(app).get('/api/orders/non-existent-uid');
+    const getResponse = await request(app).get('/api/order-status/non-existent-uid');
     expect(getResponse.status).toBe(404);
   });
 })
