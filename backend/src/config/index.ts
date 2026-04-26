@@ -11,7 +11,7 @@ const config: AppConfigInterface = {
       NAME: process.env.SEPOLIA_NAME,
       CHAIN_ID: Number(process.env.SEPOLIA_CHAIN_ID),
       RPC_URL: process.env.SEPOLIA_RPC_URL,
-      XPUB: process.env.SEPOLIA_XPUB,
+      XPUB: process.env.XPUB,
       CURRENCY_CONTRACT_ADDRESS: process.env.SEPOLIA_MOCK_USDT_ADDRESS,
       RPC_WS_URL: process.env.SEPOLIA_RPC_WS_URL,
       CURRENCY: process.env.SEPOLIA_CURRENCY,
