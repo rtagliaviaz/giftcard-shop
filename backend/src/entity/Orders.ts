@@ -37,12 +37,6 @@ export class Orders {
     @Column({ type: "datetime", name: "expires_at" })
     expiresAt!: Date; // Timestamp when the order expires
 
-    @Column({ type: "datetime", nullable: true, name: "whitdrawal_deadline" })
-    withdrawnDeadline!: Date | null; // Timestamp by which the order must be withdrawn if not paid
-
-    @Column({ type: "boolean", default: false, name: "terms_accepted" })
-    termsAccepted!: boolean; // Whether the buyer accepted the terms and conditions
-
     @CreateDateColumn({ type: "datetime", name: "created_at" })
     createdAt!: Date; // Timestamp when the order was created
 

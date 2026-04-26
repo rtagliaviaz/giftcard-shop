@@ -5,6 +5,7 @@ import { OrderItems } from "./OrderItems";
 import { GiftCardCodes } from "./GiftCardCodes";
 import {PaymentTransactions} from "./PaymentTransactions";
 import {Settings} from "./Settings";
+import { GiftCardType } from "./GiftCardType";
 
 
 export {
@@ -15,4 +16,5 @@ export {
     GiftCardCodes,
     PaymentTransactions,
     Settings,
+    GiftCardType,
 }

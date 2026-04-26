@@ -1,25 +1,21 @@
-// src/entity/GiftCard.ts
-import { Entity, PrimaryGeneratedColumn, Column, Unique, OneToMany, CreateDateColumn} from "typeorm";
-import { OrderItems, GiftCardInventory } from "./GiftCardDatabase";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
+import { GiftCardType } from './GiftCardType';
 
-@Entity({ name: "gift_cards" }) // Maps this class to the 'gift_cards' table
-@Unique(["name", "denomination"]) // Implements your unique key constraint
+@Entity('gift_cards')
 export class GiftCard {
     @PrimaryGeneratedColumn()
-    id!: number; 
-    @Column({ type: "varchar", length: 100 })
-    name!: string;
-    @Column({ type: "decimal", precision: 10, scale: 2 })
+    id!: number;
+
+    @Column({ type: 'decimal', precision: 10, scale: 2 })
     denomination!: number;
-    @Column({ type: "boolean", default: true })
+
+    @Column({ default: true })
     active!: boolean;
-    @CreateDateColumn({ type: "datetime", name: "created_at" })
+
+    @Column({ name: 'created_at', default: () => 'CURRENT_TIMESTAMP' })
     createdAt!: Date;
 
-    //Relationships
-    @OneToMany(() => OrderItems, (orderItem) => orderItem.giftCard)
-    orderItems!: OrderItems[]; // This will allow us to easily access the related OrderItems entities when needed
-
-    @OneToMany(() => GiftCardInventory, (inventory) => inventory.giftCard)
-    inventory!: GiftCardInventory[]; // This will allow us to easily access the related GiftCardInventory entities when needed
+    @ManyToOne(() => GiftCardType)
+    @JoinColumn({ name: 'type_id' })
+    type!: GiftCardType;
 }
