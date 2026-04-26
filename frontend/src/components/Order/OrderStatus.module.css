@@ -1,0 +1,340 @@
+/* OrderStatus.module.css */
+.container {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: white;
+  border-radius: 24px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
+.title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin: 0 0 0.25rem 0;
+  color: #1a1a2e;
+}
+
+.subtitle {
+  font-size: 0.9rem;
+  color: #6c757d;
+  border-bottom: 1px solid #e9ecef;
+  padding-bottom: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.timerCard {
+  background: #f8f9fa;
+  border-radius: 16px;
+  padding: 1rem;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  border-left: 4px solid #e63946;
+}
+
+.timerLabel {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 500;
+  color: #6c757d;
+}
+
+.timer {
+  font-size: 2rem;
+  font-weight: 700;
+  font-family: 'Monaco', 'Courier New', monospace;
+  color: #e63946;
+  margin: 0.25rem 0 0;
+}
+
+.paymentDetails {
+  background: #f1f3f5;
+  border-radius: 20px;
+  padding: 1.25rem;
+  margin: 1.5rem 0;
+}
+
+.detailRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.detailLabel {
+  font-weight: 600;
+  color: #495057;
+}
+
+.detailValue {
+  font-weight: 500;
+  color: #212529;
+  word-break: break-all;
+  text-align: right;
+  flex: 1;
+}
+
+.addressBox {
+  background: #fff;
+  padding: 0.75rem;
+  border-radius: 12px;
+  font-family: monospace;
+  font-size: 0.85rem;
+  word-break: break-all;
+  border: 1px solid #dee2e6;
+  margin: 0.5rem 0;
+}
+
+/* New styles for address copy button */
+.addressContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.copyAddressButton {
+  background: #e9ecef;
+  border: 1px solid #ced4da;
+  border-radius: 40px;
+  padding: 0.4rem 0.9rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #212529;
+}
+
+.copyAddressButton:hover {
+  background: #dee2e6;
+  transform: translateY(-1px);
+}
+
+.copiedFeedback {
+  font-size: 0.75rem;
+  color: #2e7d32;
+  background: #e8f5e9;
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+/* QR code wrapper */
+.qrWrapper {
+  display: flex;
+  justify-content: center;
+  margin: 1.5rem 0;
+}
+
+.statusBadge {
+  display: inline-block;
+  padding: 0.4rem 1rem;
+  border-radius: 40px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  background: #e9ecef;
+  color: #495057;
+  margin-top: 1rem;
+}
+
+.statusPaid {
+  background: #d4edda;
+  color: #155724;
+}
+
+.codeSection {
+  background: #e9ecef;
+  border-radius: 20px;
+  padding: 1.25rem;
+  margin-top: 1.5rem;
+  text-align: center;
+}
+
+.codeBox {
+  background: #fff;
+  padding: 1rem;
+  border-radius: 14px;
+  font-family: monospace;
+  font-size: 1.1rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  word-break: break-all;
+  margin: 1rem 0;
+}
+
+.copyButton {
+  background: #1a1a2e;
+  color: white;
+  border: none;
+  border-radius: 40px;
+  padding: 0.6rem 1.2rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.copyButton:hover {
+  background: #16213e;
+  transform: translateY(-1px);
+}
+
+.loading {
+  text-align: center;
+  padding: 3rem;
+  font-size: 1.2rem;
+  color: #6c757d;
+}
+
+.expired {
+  text-align: center;
+  padding: 3rem;
+  background: #fff3f3;
+  border-radius: 24px;
+  color: #c0392b;
+  font-weight: 500;
+}
+
+
+
+
+.detailRow {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  align-items: start; /* changed from center to allow message below */
+}
+
+.detailLabel {
+  font-weight: 600;
+  color: #495057;
+}
+
+/* Container for the address box and the message below it */
+.addressContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  width: 100%;
+}
+
+.addressValue {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #fff;
+  border: 0px solid #dee2e6;
+  outline: 1px solid #dee2e6;
+  color: black;
+  border-radius: 12px;
+  padding: 0.5rem 0.75rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.addressText {
+  font-family: monospace;
+  font-size: 0.85rem;
+  word-break: break-all;
+  flex: 1;
+  line-height: 1.4;
+}
+
+.copyIconButton {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0 0.25rem;
+  opacity: 0.6;
+  transition: opacity 0.2s, transform 0.1s;
+  border-radius: 4px;
+}
+
+.copyIconButton:hover {
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+.copiedMessage {
+  font-size: 0.75rem;
+  color: #2e7d32;
+  background: #e8f5e9;
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+  display: inline-block;
+  width: fit-content;
+  margin-top: 0.25rem;
+}
+
+.nocopiedMessage {
+  font-size: 0.75rem;
+  height: 1.45rem;
+  background: #e8f5e9;
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+  display: inline-block;
+  width: fit-content;
+  margin-top: 0.25rem;
+}
+
+/* Responsive: on narrow screens, reduce label width */
+@media (max-width: 500px) {
+  .detailRow {
+    grid-template-columns: 80px 1fr;
+    gap: 0.75rem;
+  }
+}
+
+
+
+/* Paid view - success icon */
+.successIcon {
+  font-size: 3rem;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+/* List of gift card codes */
+.codesList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+/* Each code card */
+.codeCard {
+  background: #f8f9fa;
+  border-radius: 16px;
+  padding: 1rem;
+  text-align: center;
+  border: 1px solid #e9ecef;
+  transition: box-shadow 0.2s;
+}
+
+.codeCard:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* Header inside code card (gift card type name) */
+.codeHeader {
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  color: #495057;
+}
+
+/* Note / footnote */
+.note {
+  font-size: 0.8rem;
+  color: #6c757d;
+  text-align: center;
+  margin-top: 1rem;
+}

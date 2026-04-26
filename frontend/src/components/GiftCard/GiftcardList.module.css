@@ -1,0 +1,99 @@
+/* GiftcardList.module.css */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+  padding: 1rem;
+}
+
+.card {
+  background: var(--bg);
+  border-radius: 20px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--border);
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow);
+}
+
+.imageWrapper {
+  width: 100%;
+  aspect-ratio: 1 / 1; /* modern, but fallback below */
+  background: var(--code-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  box-sizing: border-box;
+}
+
+/* Fallback for older browsers */
+@supports not (aspect-ratio: 1 / 1) {
+  .imageWrapper {
+    height: 0;
+    padding-bottom: 100%;
+    position: relative;
+  }
+  .image {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 80%;
+    max-height: 80%;
+    width: auto;
+    height: auto;
+  }
+}
+
+.image {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  display: block;
+  transition: transform 0.2s;
+}
+
+.card:hover .image {
+  transform: scale(1.02);
+}
+
+.cardTitle {
+  padding: 1rem 1rem 1.5rem;
+  text-align: center;
+  font-weight: 600;
+  font-size: 1.2rem;
+  color: var(--text-h);
+  border-top: 1px solid var(--border);
+  background: var(--bg);
+}
+
+@media (max-width: 768px) {
+  .grid {
+    gap: 1rem;
+  }
+  .cardTitle {
+    font-size: 1rem;
+    padding: 0.75rem;
+  }
+  .imageWrapper {
+    padding: 1rem;
+  }
+}
