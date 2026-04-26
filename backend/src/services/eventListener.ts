@@ -5,6 +5,8 @@ import config from '../config';
 import { deliverGiftCards } from './giftCardService'; // your fulfillment logic
 import {NetworkName} from '../types/ConfigInterfaces';
 import { MoreThan } from 'typeorm';
+import { EMV_EVENTS } from '../constants/emvEvents';
+import { SOCKET_EVENTS } from '../constants/socketEvents';
 
 
 let activeAddresses = new Map<NetworkName, Set<string>>(); // per network
@@ -46,16 +48,16 @@ async function setupNetworkListener(networkName: NetworkName) {
   const divisor = 10n ** decimals;
 
 
-  await refreshActiveAddresses(networkName);
+  // await refreshActiveAddresses(networkName);
   
 
-  contract.on('Transfer', async (from, to, value) => {
+  contract.on(EMV_EVENTS.TRANSFER, async (from, to, value) => {
     const toAddress = to.toLowerCase();
-    const currentSet = activeAddresses.get(networkName);
-    if (!currentSet || !currentSet.has(toAddress)) {
-      // Not an active address, ignore
-      return;
-    }
+    // const currentSet = activeAddresses.get(networkName);
+    // if (!currentSet || !currentSet.has(toAddress)) {
+    //   // Not an active address, ignore
+    //   return;
+    // }
     const amountHuman = Number(value) / Number(divisor);
     console.log(`[${network.NAME}] Transfer detected: ${amountHuman} ${network.CURRENCY} to ${to}`);
 
@@ -74,7 +76,7 @@ async function setupNetworkListener(networkName: NetworkName) {
       await orderRepo.save(order);
 
       const io = (global as any).io;
-      if (io) io.emit('order-paid', { uid: order.uid });
+      if (io) io.emit(SOCKET_EVENTS.ORDER_PAID, { uid: order.uid });
 
       await deliverGiftCards(order);
     } else {
@@ -82,7 +84,7 @@ async function setupNetworkListener(networkName: NetworkName) {
     }
   });
 
-  provider.on('error', (err) => {
+  provider.on(EMV_EVENTS.ERROR, (err) => {
     console.error(`[${network.NAME}] WebSocket error:`, err);
   });
 
@@ -93,7 +95,7 @@ export async function startEventListeners() {
   await setupNetworkListener('sepolia');      // For USDT
   await setupNetworkListener('baseSepolia');  // For USDC
 
-  setInterval(() => refreshActiveAddresses('sepolia'), 60000);
-  setInterval(() => refreshActiveAddresses('baseSepolia'), 60000);
+  // setInterval(() => refreshActiveAddresses('sepolia'), 60000);
+  // setInterval(() => refreshActiveAddresses('baseSepolia'), 60000);
 }
 
