@@ -55,7 +55,6 @@ describe('POST /api/create-order', () => {
         email: 'test@example.com',
         items: [{ giftCardId: 1, quantity: 1, unitAmountUSD: 10 }],
         totalAmountRaw: 10000000,
-        termsAccepted: true,
         network: 'sepolia'
       });
 
@@ -75,7 +74,6 @@ describe('POST /api/create-order', () => {
       .send({
         items: [{ giftCardId: 1, quantity: 1, unitAmountUSD: 10 }],
         totalAmountRaw: 10000000,
-        termsAccepted: true,
         network: 'base-sepolia'
       });
 
@@ -89,7 +87,6 @@ describe('POST /api/create-order', () => {
       .send({
         email: 'test@example.com',
         totalAmountRaw: 10000000,
-        termsAccepted: true,
         network: 'base-sepolia'
       });
 
@@ -108,7 +105,6 @@ describe('POST /api/create-order', () => {
         email: 'test@example.com',
         items: [{ giftCardId: 1, quantity: 1, unitAmountUSD: 10 }],
         totalAmountRaw: 10000000,
-        termsAccepted: true,
         network: 'sepolia'
       });
 
@@ -125,7 +121,6 @@ describe('POST /api/create-order', () => {
         email: 'test@example.com',
         items: [{ giftCardId: 1, quantity: 1, unitAmountUSD: 10 }],
         totalAmountRaw: 10000000,
-        termsAccepted: true,
         network: 'sepolia'
       });
 
@@ -145,7 +140,6 @@ describe('GET /api/order-status/:uid', () => {
         email: 'test@example.com',
         items: [{ giftCardId: 1, quantity: 1, unitAmountUSD: 10 }],
         totalAmountRaw: 10000000,
-        termsAccepted: true,
         network: 'sepolia'
       });
 
