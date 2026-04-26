@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
 import { AppDataSource } from '../db/data-source';
-import { Orders, OrderItems, Settings } from '../entity/GiftCardDatabase';
+import { Orders, OrderItems, Settings, GiftCardCodes } from '../entity/GiftCardDatabase';
 import { generateAddressFromXpub } from '../services/walletService';
 import { nanoid } from 'nanoid';
-import { Order, OrderItem } from '../types/OrdersInterfaces';
+import { OrderItem } from '../types/OrdersInterfaces';
 import { SUPPORTED_NETWORKS } from '../constants/supportedNetworks';
 import config from '../config';
 
@@ -20,7 +20,7 @@ async function getNextAddressIndex(): Promise<number> {
 }
 
 export const createOrder = async (req: Request, res: Response) => {
-  const { email, items, totalAmountRaw, termsAccepted, network } = req.body;
+  const { email, items, totalAmountRaw, network } = req.body;
 
   if (!email || !items?.length) {
     return res.status(400).json({ error: 'Missing email or items' });
@@ -35,8 +35,7 @@ export const createOrder = async (req: Request, res: Response) => {
 
   const addressIndex = await getNextAddressIndex();
   const address = generateAddressFromXpub(addressIndex);
-  const expiresAt = new Date(Date.now() + 20 * 60 * 1000); // 20 min
-  const withdrawnDeadline = new Date(Date.now() + 14 * 24 * 60 * 60 * 1000); // 14 days (example)
+  const expiresAt = new Date(Date.now() + 20 * 60 * 1000); 
 
   const uid = `ORD_${nanoid(10)}`;
 
@@ -55,17 +54,15 @@ export const createOrder = async (req: Request, res: Response) => {
       expectedAmount: totalAmountRaw,
       status: 'pending',
       expiresAt,
-      withdrawnDeadline,
-      termsAccepted,
       createdAt: new Date(),
       swept: false,
       paidAt: null,
       network,
     });
     const savedOrder = await orderRepo.save(newOrder);
-
     const itemsRepo = queryRunner.manager.getRepository(OrderItems);
-    const orderItems = items.map((item: OrderItem) => //change the any tyoe for an actual type
+
+    const orderItems = items.map((item: OrderItem) => 
       itemsRepo.create({
         order: savedOrder,
         giftCardId: item.giftCardId,
@@ -97,7 +94,7 @@ export const getOrderStatus = async (req: Request, res: Response) => {
   const orderRepo = AppDataSource.getRepository(Orders);
   const order = await orderRepo.findOne({
     where: { uid: uid as string },
-    relations: ['orderItems'], // if you have the relation defined
+    relations: ['orderItems'], 
   });
 
   if (!order) return res.status(404).json({ error: 'Order not found' });
@@ -111,5 +108,41 @@ export const getOrderStatus = async (req: Request, res: Response) => {
     expectedAmount: expectedAmountHuman,
     expiresAt: order.expiresAt,
     status: order.status,
+    network: order.network,
+    currency: order.currency,
   });
 };
+
+
+export const getOrderCodes = async (req: Request, res: Response) => {
+  const { uid } = req.params;
+  const orderRepo = AppDataSource.getRepository(Orders);
+  const order = await orderRepo.findOne({
+    where: { uid: uid as string },
+    relations: ['orderItems', 'orderItems.giftCard', 'orderItems.giftCard.type', 'orderItems.giftCard.type'], // load related gift card and its type
+  });
+
+  if (!order) return res.status(404).json({ error: 'Order not found' });
+
+  if (order.status !== 'paid') {
+    return res.status(400).json({ error: 'Order not paid yet' });
+  }
+
+  const codesRepo = AppDataSource.getRepository(GiftCardCodes);
+  const codes = await codesRepo.find({
+    where: { orderItem: { order: { id: order.id } } },
+    relations: ['giftCard', 'giftCard.type'],
+  });
+
+
+  const response = codes.map((code) => ({
+    code: code.code,
+    giftCardId: code.id,
+    giftCardType: code.giftCard.type.name,
+    deliveredAt: code.deliveredAt,
+    expiresAt: code.expiresAt,
+  }));
+
+  res.status(200).json(response);
+
+}
