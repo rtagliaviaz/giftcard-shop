@@ -19,3 +19,13 @@ export type GiftCardTypeInterface = {
     }[];
     active: boolean;
 };
+
+export type GiftCardTypeByIdResponse = {
+    id: number;
+    name: string;
+    image: string;
+    denominations: {
+        id: number;
+        value: number;
+    }[];
+};
