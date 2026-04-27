@@ -1,7 +1,7 @@
 import { AppDataSource } from '../db/data-source';
 import { Request, Response } from 'express';
 import { GiftCard, GiftCardType } from '../entity/GiftCardDatabase';
-import { GiftCardTypeResponse, GiftCardTypeInterface } from '../types/GiftCardInterfaces';
+import { GiftCardTypeResponse, GiftCardTypeInterface, GiftCardTypeByIdResponse } from '../types/GiftCardInterfaces';
 
 export const getGiftCardTypes = async (req: Request, res: Response) => {
     try {
@@ -33,18 +33,36 @@ export const getGiftCardTypes = async (req: Request, res: Response) => {
 };
 
 
-export const getGiftCards = async (req: Request, res: Response) => {
+export const getGiftCardTypeById = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
   try {
-    const giftCardRepo = AppDataSource.getRepository(GiftCard);
-    const giftCards = await giftCardRepo.find({
-      where: { active: true },
-      order: {denomination: 'ASC' },
-    });
-    res.status(200).json(giftCards);
+    const typeRepo = AppDataSource.getRepository(GiftCardType);
+    const type = await typeRepo.findOne({
+        where: { id: parseInt(id as string), active: true },
+        relations: ['denominations'],
+    });   
+
+    if (!type) {
+      return res.status(404).json({ error: 'Gift card type not found' });
+    }
+
+    const result = {
+      id: type.id,
+      name: type.name,
+      image: type.image,
+      denominations: type.denominations
+        .filter(d => d.active)
+        .map(d => ({
+          id: d.id,           
+          value: d.denomination,
+        }))
+        .sort((a, b) => a.value - b.value),
+    };
+
+    res.json(result as GiftCardTypeByIdResponse);
   } catch (error) {
-    console.error('Error fetching gift cards:', error);
-    res.status(500).json({ error: 'Failed to fetch gift cards' });
+    console.error(error);
+    res.status(500).json({ error: 'Failed to fetch gift card type' });
   }
-};
-
-
+}
