@@ -9,6 +9,8 @@
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
     "protree": "protree . documentation.md",
     "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --runInBand",
+    "script:sweeper": "ts-node src/scripts/sweeper.ts",
+    "script:generate-xpub": "ts-node src/scripts/generate-xpub.ts",
     "test:watch": "jest --watch"
   },
   "keywords": [],
