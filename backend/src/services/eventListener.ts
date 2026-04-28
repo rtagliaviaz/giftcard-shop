@@ -2,29 +2,12 @@ import { ethers } from 'ethers';
 import { AppDataSource } from '../db/data-source';
 import { Orders } from '../entity/GiftCardDatabase';
 import config from '../config';
-import { deliverGiftCards } from './giftCardService'; // your fulfillment logic
+import { deliverGiftCards } from './giftCardService';
 import {NetworkName} from '../types/ConfigInterfaces';
-import { MoreThan } from 'typeorm';
 import { EMV_EVENTS } from '../constants/emvEvents';
 import { SOCKET_EVENTS } from '../constants/socketEvents';
 
 
-let activeAddresses = new Map<NetworkName, Set<string>>(); // per network
-
-async function refreshActiveAddresses(networkName: NetworkName) {
-  const orderRepo = AppDataSource.getRepository(Orders);
-  const pendingOrders = await orderRepo.find({
-    where: {
-      status: 'pending',
-      network: networkName,
-      expiresAt: MoreThan(new Date())
-    },
-    select: ['address']
-  });
-  const addresses = new Set(pendingOrders.map(order => order.address.toLowerCase()));
-  activeAddresses.set(networkName, addresses);
-  console.log(`[${networkName}] Loaded ${addresses.size} active addresses`);
-}
 
 const ERC20_ABI = [
   'event Transfer(address indexed from, address indexed to, uint256 value)',
@@ -47,28 +30,18 @@ async function setupNetworkListener(networkName: NetworkName) {
   const decimals = await contract.decimals();
   const divisor = 10n ** decimals;
 
-
-  // await refreshActiveAddresses(networkName);
-  
-
   contract.on(EMV_EVENTS.TRANSFER, async (from, to, value) => {
     const toAddress = to.toLowerCase();
-    // const currentSet = activeAddresses.get(networkName);
-    // if (!currentSet || !currentSet.has(toAddress)) {
-    //   // Not an active address, ignore
-    //   return;
-    // }
     const amountHuman = Number(value) / Number(divisor);
-    console.log(`[${network.NAME}] Transfer detected: ${amountHuman} ${network.CURRENCY} to ${to}`);
 
     const orderRepo = AppDataSource.getRepository(Orders);
-    // We need to store the network name in the order to look it up correctly
     const order = await orderRepo.findOne({
       where: { address: toAddress, status: 'pending', network: networkName },
       relations: ['orderItems'],
     });
 
     if (!order) return;
+    console.log(`[${network.NAME}] Transfer detected: ${amountHuman} ${network.CURRENCY} to ${to}`);
 
     if (value >= BigInt(order.expectedAmount) && new Date() <= order.expiresAt) {
       order.status = 'paid';
@@ -94,8 +67,5 @@ async function setupNetworkListener(networkName: NetworkName) {
 export async function startEventListeners() {
   await setupNetworkListener('sepolia');      // For USDT
   await setupNetworkListener('baseSepolia');  // For USDC
-
-  // setInterval(() => refreshActiveAddresses('sepolia'), 60000);
-  // setInterval(() => refreshActiveAddresses('baseSepolia'), 60000);
 }
 
