@@ -12,6 +12,21 @@ const TOKEN_ABI = [
   'function transfer(address to, uint256 amount) returns (bool)',
 ];
 
+
+async function ensureGasBalance(address: string, provider: ethers.Provider, gasWallet: ethers.Wallet): Promise<void> {
+  const balance = await provider.getBalance(address);
+  const minGas = ethers.parseEther(process.env.GAS_AMOUNT || "0.0005");
+  if (balance < minGas) {
+    console.log(`Funding ${address} with ${ethers.formatEther(minGas)} ETH for gas`);
+    const tx = await gasWallet.sendTransaction({
+      to: address,
+      value: minGas,
+    });
+    await tx.wait();
+    console.log(`Gas funded, tx: ${tx.hash}`);
+  }
+}
+
 async function getWalletForIndex(index: number): Promise<ethers.Wallet> {
   const seed = await mnemonicToSeed(process.env.SWEEPER_MNEMONIC as string);
   const master = await HDKey.fromMasterSeed(seed);
@@ -32,12 +47,18 @@ async function sweepOrder(order: Orders): Promise<void> {
   const tokenContract = new ethers.Contract(network.CURRENCY_CONTRACT_ADDRESS, TOKEN_ABI, wallet);
 
   try {
+    
+
     const balance = await tokenContract.balanceOf(wallet.address);
     if (balance === 0n) {
       console.log(`Order ${order.id} (${order.address}) has zero balance, skipping.`);
       return;
     }
 
+    const gasWallet = new ethers.Wallet(process.env.GAS_WALLET_PRIVATE_KEY!, provider);
+    await ensureGasBalance(wallet.address, provider, gasWallet);
+
+    
     console.log(`Sweeping ${ethers.formatUnits(balance, network.DECIMALS)} ${network.CURRENCY} from order ${order.id} to treasury ${process.env.SWEEPER_TREASURY_ADDRESS}`);
     const tx = await tokenContract.transfer(process.env.SWEEPER_TREASURY_ADDRESS as string, balance);
     console.log(`Tx hash: ${tx.hash}`);
