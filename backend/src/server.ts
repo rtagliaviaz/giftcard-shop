@@ -5,6 +5,7 @@ import config from './config';
 import { startEventListeners } from './services/eventListener';
 import { initializeDatabase } from './db/init';
 import { registerSocketHandlers } from './socket/handlers';
+import { markExpiredOrders } from './services/expiryService';
 
 export async function startServer() {
   await initializeDatabase();
@@ -20,9 +21,13 @@ export async function startServer() {
   (global as any).io = io;
 
   registerSocketHandlers(io);
-
   startEventListeners();
 
+  setInterval(() => {
+    markExpiredOrders().catch(err => console.error('Error marking expired orders:', err));
+  }, 60 * 1000);
+
+  
   const PORT = config.port;
   server.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
