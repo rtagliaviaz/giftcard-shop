@@ -1,4 +1,5 @@
 // @ts-nocheck
+process.env.NODE_ENV = 'test';
 import { jest } from '@jest/globals';
 
 // Mock dependencies
@@ -16,6 +17,14 @@ await jest.unstable_mockModule('socket.io', () => ({
   })),
 }));
 
+await jest.unstable_mockModule('../socket/handlers', () => ({
+  registerSocketHandlers: jest.fn(),
+}));
+
+await jest.unstable_mockModule('../services/expiryService', () => ({
+  markExpiredOrders: jest.fn().mockResolvedValue(undefined),
+}));
+
 await jest.unstable_mockModule('../config', () => ({
   default: {
     clientUrl: 'http://localhost:3000',
@@ -26,8 +35,11 @@ await jest.unstable_mockModule('../config', () => ({
 // Import after mocks
 const { initializeDatabase } = await import('../db/init');
 const { startEventListeners } = await import('../services/eventListener');
+const { markExpiredOrders } = await import('../services/expiryService');
+const { registerSocketHandlers } = await import('../socket/handlers');
 const { Server: SocketServer } = await import('socket.io');
 const { startServer } = await import('../server');
+
 
 describe('startServer', () => {
   let server;
@@ -44,6 +56,8 @@ describe('startServer', () => {
     expect(initializeDatabase).toHaveBeenCalled();
     expect(startEventListeners).toHaveBeenCalled();
     expect(SocketServer).toHaveBeenCalled();
+    expect(registerSocketHandlers).toHaveBeenCalled();
+
     expect(server.listening).toBe(true);
   });
 });

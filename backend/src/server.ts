@@ -23,11 +23,13 @@ export async function startServer() {
   registerSocketHandlers(io);
   startEventListeners();
 
-  setInterval(() => {
-    markExpiredOrders().catch(err => console.error('Error marking expired orders:', err));
-  }, 60 * 1000);
+  if (process.env.NODE_ENV !== 'test') {
+    setInterval(() => {
+      markExpiredOrders().catch(err => console.error('Error marking expired orders:', err));
+    }, 60 * 1000);
+  }
 
-  
+
   const PORT = config.port;
   server.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
