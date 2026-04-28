@@ -5,7 +5,6 @@ dotenv.config();
 
 
 const config: AppConfigInterface = {
-  //sepolia with type safety
   networks:{
     sepolia: {
       NAME: process.env.SEPOLIA_NAME,
