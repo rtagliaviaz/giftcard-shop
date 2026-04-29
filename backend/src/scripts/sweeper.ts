@@ -3,7 +3,7 @@ import { HDKey } from '@scure/bip32';
 import { mnemonicToSeed } from '@scure/bip39';
 import config from '../config';
 import { AppDataSource } from '../db/data-source';
-import { Orders } from '../entity/Orders';
+import { Orders, SweepLog } from '../entity/GiftCardDatabase';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -64,6 +64,14 @@ async function sweepOrder(order: Orders): Promise<void> {
     console.log(`Tx hash: ${tx.hash}`);
     await tx.wait(1);
     console.log(`Transaction confirmed.`);
+
+    const sweepLogRepo = AppDataSource.getRepository(SweepLog);
+    await sweepLogRepo.save({
+      orderId: order.id,
+      txHash: tx.hash,
+      fromAddress: wallet.address,
+      amount: balance,
+    });
 
     order.swept = true;
     await AppDataSource.getRepository(Orders).save(order);
