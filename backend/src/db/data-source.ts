@@ -1,7 +1,7 @@
 // db/data-source.ts
 import "reflect-metadata";
 import { DataSource } from "typeorm";
-import { GiftCard, GiftCardInventory, OrderItems, Orders, PaymentTransactions, GiftCardCodes, Settings, GiftCardType } from "../entity/GiftCardDatabase";
+import { GiftCard, OrderItems, Orders, GiftCardCodes, Settings, GiftCardType, SweepLog } from "../entity/GiftCardDatabase";
 import config from "../config";
 
 const isTest = process.env.NODE_ENV === 'test';
@@ -12,7 +12,7 @@ export const AppDataSource = new DataSource(
         type: "sqlite",
         database: ":memory:",
         synchronize: true,
-        entities: [GiftCard, GiftCardInventory, OrderItems, Orders, PaymentTransactions, GiftCardCodes, Settings, GiftCardType],
+        entities: [GiftCard, OrderItems, Orders, GiftCardCodes, Settings, GiftCardType, SweepLog],
       }
     : {
         type: "mysql",
@@ -23,7 +23,7 @@ export const AppDataSource = new DataSource(
         database: config.mysql.giftcardShopDb.database,
         synchronize: false,
         logging: false,
-        entities: [GiftCard, GiftCardInventory, OrderItems, Orders, PaymentTransactions, GiftCardCodes, Settings, GiftCardType],
+        entities: [GiftCard, OrderItems, Orders, GiftCardCodes, Settings, GiftCardType, SweepLog],
         migrations: [],
       }
 );
