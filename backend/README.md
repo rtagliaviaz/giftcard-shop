@@ -59,6 +59,7 @@ This document provides an overview of the backend structure, packages used, inst
 - `nanoid`: Library for generating unique IDs, used for creating gift card codes and order IDs.
 - `socket.io`: Library for real-time web applications, enabling bidirectional communication between clients and servers.
 - `sqlite3`: Database driver for SQLite for Jest testing with TypeORM.
+- `supertest`: Library for testing HTTP servers, used in conjunction with Jest for API endpoint testing.
 - `ts-node`: TypeScript execution environment for Node.js.
 - `typeorm`: ORM for TypeScript and JavaScript to interact with the database.
 - `typescript`: TypeScript language support.

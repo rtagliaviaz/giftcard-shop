@@ -58,6 +58,7 @@ Este documento proporciona informacion como la estructura del proyecto, paquetes
 - `nanoid`: Generador de IDs únicos.
 - `socket.io`: Biblioteca para comunicación en tiempo real entre el cliente y el servidor.
 - `sqlite3`: Controlador de base de datos para SQLite, utilizado en pruebas con Jest y TypeORM.
+- `supertest`: Biblioteca para probar servidores HTTP, utilizada junto con Jest para pruebas de endpoints de la API.
 - `ts-node`: Ejecutor de TypeScript para Node.js.
 - `typeorm`: ORM para TypeScript y JavaScript.
 - `typescript`: Lenguaje de programación que se compila a JavaScript.
