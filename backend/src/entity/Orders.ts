@@ -1,26 +1,26 @@
 import {Entity, PrimaryGeneratedColumn, Column, OneToMany, Index, CreateDateColumn} from "typeorm";
-import { OrderItems, PaymentTransactions } from "./GiftCardDatabase";
+import { OrderItems } from "./GiftCardDatabase";
 
-@Entity({name: "orders"}) // Maps this class to the 'orders' table
+@Entity({name: "orders"}) 
 export class Orders {
     @PrimaryGeneratedColumn()
     id!: number;
 
     @Column({ type: "varchar", length: 32, unique: true })
     @Index()
-    uid!: string;   // public order identifier
+    uid!: string; 
 
     @Column({ type: "varchar", length: 42 })
-    address!: string; // Ethereum address of the buyer
+    address!: string; // Ethereum address derived from the XPUB and address index
 
     @Column({ type: "int", name: "address_index" })
     addressIndex!: number; // Index used to derive the Ethereum address from the XPUB
 
     @Column({ type: "varchar", length: 10})
-    currency!: string; // Currency code, e.g. "USDT"
+    currency!: string; // Currency code "USDT"
 
     @Column({type: "varchar", name: "network"})
-    network!: string; // Network name, e.g. "sepolia"
+    network!: string; // Network name "sepolia"
 
     @Column({ type: "varchar", length: 255})
     email!: string; // Buyer's email address
@@ -45,8 +45,6 @@ export class Orders {
 
     //Relationships
     @OneToMany(() => OrderItems, (orderItem) => orderItem.order)
-    orderItems!: OrderItems[]; // This will allow us to easily access the related OrderItems entities when needed
+    orderItems!: OrderItems[];
 
-    @OneToMany(() => PaymentTransactions, (transaction) => transaction.order)
-    paymentTransactions!: PaymentTransactions[]; // This will allow us to easily access the related PaymentTransactions entities when needed
 }

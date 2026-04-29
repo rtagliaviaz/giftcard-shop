@@ -11,18 +11,15 @@ export class GiftCardCodes {
     code!: string;
 
     @ManyToOne(() => GiftCard)
-    @JoinColumn({ name: "gift_card_id" }) // matches your SQL column
+    @JoinColumn({ name: "gift_card_id" }) 
     giftCard!: GiftCard;
 
     @ManyToOne(() => OrderItems, { nullable: true })
-    @JoinColumn({ name: "order_item_id" }) // matches your SQL column
+    @JoinColumn({ name: "order_item_id" }) 
     orderItem!: OrderItems | null;
 
     @Column({ type: "datetime", nullable: true, name: "delivered_at" })
     deliveredAt!: Date | null;
-
-    @Column({ type: "datetime", nullable: true, name: "expires_at" })
-    expiresAt!: Date | null;
 
     @Column({ type: "boolean", default: false })
     used!: boolean; // to track if the backend already sent this code to a customer (to avoid sending duplicates in case of retries)

@@ -20,7 +20,7 @@ export class SweepLog {
   fromAddress!: string;
 
   @Column({ type: 'bigint' })
-  amount!: number; // amount in smallest unit (e.g., USDT has 6 decimals)
+  amount!: number; 
 
   @CreateDateColumn({ name: 'swept_at', type: 'timestamp' })
   sweptAt!: Date;
