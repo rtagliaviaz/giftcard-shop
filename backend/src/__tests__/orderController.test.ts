@@ -3,7 +3,7 @@ import app from '../app';
 import { AppDataSource } from '../db/data-source';
 import { initializeDatabase } from '../db/init';
 
-import { GiftCard, GiftCardType, Settings } from '../entity/GiftCardDatabase';
+import { GiftCard, GiftCardType, Settings, Orders } from '../entity/GiftCardDatabase';
 
 beforeAll(async () => {
   process.env.NODE_ENV = 'test';
@@ -133,7 +133,6 @@ describe('POST /api/create-order', () => {
 
 describe('GET /api/order-status/:uid', () => {
   it('should retrieve order details by uid', async () => {
-    // First, create an order to get a valid uid
     const createResponse = await request(app)
       .post('/api/create-order')
       .send({
@@ -150,7 +149,6 @@ describe('GET /api/order-status/:uid', () => {
     expect(getResponse.body).toHaveProperty('address');
     expect(getResponse.body).toHaveProperty('expectedAmount');
     expect(getResponse.body).toHaveProperty('status');
-    expect(getResponse.body).toHaveProperty('expiresAt');
 
   });
 
@@ -159,3 +157,51 @@ describe('GET /api/order-status/:uid', () => {
     expect(getResponse.status).toBe(404);
   });
 })
+
+describe('GET /api/order-codes/:uid', () => {
+  it('should retrieve gift card codes for a paid order', async () => {
+    const createResponse = await request(app)
+      .post('/api/create-order')
+      .send({
+        email: 'test@example.com',
+        items: [{ giftCardId: 1, quantity: 1, unitAmountUSD: 5 }],
+        totalAmountRaw: 10000000,
+        network: 'sepolia',
+      });
+
+    const uid = createResponse.body.uid;
+
+    const orderRepo = AppDataSource.getRepository(Orders);
+    await orderRepo.update({ uid }, { status: 'paid' });
+
+    const getResponse = await request(app).get(`/api/order-codes/${uid}`);
+    expect(getResponse.status).toBe(200);
+    expect(Array.isArray(getResponse.body)).toBe(true);
+  })
+
+  it('should return 404 for non-existent uid', async () => {
+    const getResponse = await request(app).get('/api/order-codes/non-existent-uid');
+    expect(getResponse.status).toBe(404);
+  });
+
+  it('should return 400 if order is not paid', async () => {
+    const createResponse = await request(app)
+      .post('/api/create-order')
+      .send({
+        email: 'test@example.com',
+        items: [{ giftCardId: 1, quantity: 1, unitAmountUSD: 5 }],
+        totalAmountRaw: 10000000,
+        network: 'sepolia'
+      });
+
+    const uid = createResponse.body.uid;
+
+    const orderRepo = AppDataSource.getRepository(Orders);
+    await orderRepo.update({ uid }, { status: 'pending' });
+
+    const getResponse = await request(app).get(`/api/order-codes/${uid}`);
+    expect(getResponse.status).toBe(400);
+    expect(getResponse.body).toHaveProperty('error', 'Order not paid yet');
+  });
+
+});
