@@ -97,7 +97,7 @@ export const getOrderStatus = async (req: Request, res: Response) => {
     relations: ['orderItems'], 
   });
 
-  if (!order) return res.status(404).json({ error: 'Order not found' });
+  if (!order) return res.status(404).json({ error: 'No order found with the provided UID.' });
 
   // Convert expected amount back to human‑readable (if USDT with 6 decimals)
   const expectedAmountHuman = order.expectedAmount / 1_000_000;
@@ -139,8 +139,8 @@ export const getOrderCodes = async (req: Request, res: Response) => {
     code: code.code,
     giftCardId: code.id,
     giftCardType: code.giftCard.type.name,
+    denomination: code.giftCard.denomination,
     deliveredAt: code.deliveredAt,
-    expiresAt: code.expiresAt,
   }));
 
   res.status(200).json(response);
