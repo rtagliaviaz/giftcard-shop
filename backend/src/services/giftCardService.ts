@@ -1,6 +1,6 @@
 import { AppDataSource } from '../db/data-source';
 import { Orders, OrderItems, GiftCardCodes } from '../entity/GiftCardDatabase';
-import config from '../config';
+import { sendOrderConfirmationEmail } from './emailService';
 import { SOCKET_EVENTS } from '../constants/socketEvents';
 
 export async function deliverGiftCards(order: Orders): Promise<void> {
@@ -54,26 +54,6 @@ export async function deliverGiftCards(order: Orders): Promise<void> {
   }
 }
 
-
-async function sendOrderConfirmationEmail(to: string, orderUid: string): Promise<void> {
-  const frontendUrl = config.clientUrl;
-  const orderLink = `${frontendUrl}/order/${orderUid}`;
-  const subject = `Your Gift Card Order #${orderUid}`;
-  const body = `
-    Thank you for your purchase!
-
-    Your gift card codes are ready. You can retrieve them at any time using the following link:
-    ${orderLink}
-
-    Please keep this link safe. It will give you access to your gift card codes.
-
-    If you have any questions, contact support.
-  `;
-
-      console.log(`\n--- EMAIL TO ${to} ---\nSubject: ${subject}\n\n${body}\n--- END EMAIL ---\n`);
-
-}
-
 async function sendOrderCodesWithSocket(order: Orders): Promise<void> {
   const io = (global as any).io;
   if (!io) {
@@ -88,31 +68,31 @@ async function sendOrderCodesWithSocket(order: Orders): Promise<void> {
 
 
 async function getOrderCodes(orderUid: string) {
-    const orderRepo = AppDataSource.getRepository(Orders);
-    const order = await orderRepo.findOne({
-      where: { uid: orderUid },
-      relations: ['orderItems', 'orderItems.giftCard', 'orderItems.giftCard.type', 'orderItems.giftCard.type'], 
-    });
+  const orderRepo = AppDataSource.getRepository(Orders);
+  const order = await orderRepo.findOne({
+    where: { uid: orderUid },
+    relations: ['orderItems', 'orderItems.giftCard', 'orderItems.giftCard.type', 'orderItems.giftCard.type'], 
+  });
 
-    if (!order) {
-      throw new Error('Order not found');
-    }
-
-    if (order.status !== 'paid') {
-      throw new Error('Order not paid yet');
-    }
-
-    const codesRepo = AppDataSource.getRepository(GiftCardCodes);
-    const codes = await codesRepo.find({
-      where: { orderItem: { order: { id: order.id } } },
-      relations: ['giftCard', 'giftCard.type'],
-    });
-
-    return codes.map((code) => ({
-      code: code.code,
-      giftCardId: code.id,
-      giftCardType: code.giftCard.type.name,
-      deliveredAt: code.deliveredAt,
-      denomination: code.giftCard.denomination,
-    }));
+  if (!order) {
+    throw new Error('Order not found');
   }
+
+  if (order.status !== 'paid') {
+    throw new Error('Order not paid yet');
+  }
+
+  const codesRepo = AppDataSource.getRepository(GiftCardCodes);
+  const codes = await codesRepo.find({
+    where: { orderItem: { order: { id: order.id } } },
+    relations: ['giftCard', 'giftCard.type'],
+  });
+
+  return codes.map((code) => ({
+    code: code.code,
+    giftCardId: code.id,
+    giftCardType: code.giftCard.type.name,
+    deliveredAt: code.deliveredAt,
+    denomination: code.giftCard.denomination,
+  }));
+}
