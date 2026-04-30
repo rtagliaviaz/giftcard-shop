@@ -12,7 +12,6 @@ This document provides an overview of the backend structure, packages used, inst
 - [Database](#database)
 - [Socket.io Events](#socketio-events)
 - [Scripts](#scripts)
-- [Troubleshooting](#troubleshooting)
 
 ## Project Structure
 

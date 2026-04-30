@@ -12,7 +12,6 @@ Este documento proporciona informacion como la estructura del proyecto, paquetes
 - [Base de Datos](#base-de-datos)
 - [Eventos de Socket.io](#eventos-de-socketio)
 - [Scripts](#scripts)
-- [Solución de Problemas](#solución-de-problemas)
 
 ## Estructura del Proyecto
 
