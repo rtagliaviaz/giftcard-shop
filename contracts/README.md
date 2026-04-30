@@ -22,12 +22,15 @@ npx hardhat test
 
 ## Environment Variables
 Before deploying the contracts or running the minting script, make sure to set up the required environment variables. You can create a `.env` file in the `contracts` directory based on the provided `.env.example` file. The necessary variables include:
-- `SEPOLIA_RPC_URL`: The RPC URL for the Sepolia Testnet (you can obtain this from services like Infura or Alchemy).
-- `SEPOLIA_PRIVATE_KEY`: The private key of the wallet you want to use for deployment and transactions (make sure to keep this secure and never share it).
-- `MOCK_USDT_CONTRACT_ADDRESS`: The address of the deployed MockUSDT contract on the Sepolia Testnet.
-- `WALLET_ADDRESS`: The address of the wallet that will receive the minted tokens.
 
-note: if you're using Metamask, you can get the private key by going to accounts section -> click on the three dots next to the account you want to use > click on "Account details" > click on "Private Keys" and follow the instructions. Remember to keep your private key secure and never share it with anyone.
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `SEPOLIA_RPC_URL` | The RPC URL for the Sepolia Testnet (you can obtain this from services like Infura or Alchemy). | `https://sepolia.infura.io/v3/YOUR_PROJECT_ID` |
+| `SEPOLIA_PRIVATE_KEY` | The private key of the wallet you want to use for deployment and transactions (make sure to keep this secure and never share it). | `0xYOUR_PRIVATE_KEY` |
+| `MOCK_USDT_CONTRACT_ADDRESS` | The address of the deployed MockUSDT contract on the Sepolia Testnet. | `0xCONTRACT_ADDRESS` |
+| `WALLET_ADDRESS` | The address of the wallet that will receive the minted tokens. | `0xWALLET_ADDRESS` |
+
+> **Note: if you're using Metamask, you can get the private key by going to accounts section -> click on the three dots next to the account you want to use > click on "Account details" > click on "Private Keys" and follow the instructions. Remember to keep your private key secure and never share it with anyone.**
 
 ## Deployment
 To deploy the MockUSDT contract to the Sepolia Testnet, you can use the following command:

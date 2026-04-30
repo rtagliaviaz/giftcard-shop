@@ -21,12 +21,15 @@ npx hardhat test
 
 ## Variables de entorno
 Antes de desplegar los contratos o ejecutar el script de minting, asegúrate de configurar las variables de entorno necesarias. Puedes crear un archivo `.env` en el directorio `contracts` basado en el archivo `.env.example` proporcionado. Las variables necesarias incluyen:
-- `SEPOLIA_RPC_URL`: La URL RPC para la red Sepolia Testnet (se puede obtener en servicios como Infura o Alchemy).
-- `SEPOLIA_PRIVATE_KEY`: La clave privada de la wallet que deseas usar para el despliegue y las transacciones (asegúrate de mantener esta clave segura y nunca compartirla).
-- `MOCK_USDT_CONTRACT_ADDRESS`: La dirección del contrato MockUSDT desplegado en la red de Sepolia Testnet.
-- `WALLET_ADDRESS`: La dirección de la wallet que recibirá los minted tokens.
 
-nota: si estás usando Metamask, puedes obtener la clave privada yendo a la sección de cuentas -> haz clic en los tres puntos junto a la cuenta que deseas usar > haz clic en "Detalles de la cuenta" > haz clic en "Claves privadas" y sigue las instrucciones.
+| Variable | Descripción | Ejemplo |
+|----------|-------------|---------|
+| `SEPOLIA_RPC_URL` | La URL RPC para la red Sepolia Testnet (se puede obtener en servicios como Infura o Alchemy). | `https://sepolia.infura.io/v3/YOUR_PROJECT_ID` |
+| `SEPOLIA_PRIVATE_KEY` | La clave privada de la wallet que deseas usar para el despliegue y las transacciones (asegúrate de mantener esta clave segura y nunca compartirla). | `0xYOUR_PRIVATE_KEY` |
+| `MOCK_USDT_CONTRACT_ADDRESS` | La dirección del contrato MockUSDT desplegado en la red de Sepolia Testnet. | `0xCONTRACT_ADDRESS` |
+| `WALLET_ADDRESS` | La dirección de la wallet que recibirá los minted tokens. | `0xWALLET_ADDRESS` |
+
+> **Nota: si estás usando Metamask, puedes obtener la clave privada yendo a la sección de cuentas -> haz clic en los tres puntos junto a la cuenta que deseas usar > haz clic en "Detalles de la cuenta" > haz clic en "Claves privadas" y sigue las instrucciones. Recuerda mantener tu clave privada segura y nunca compartirla con nadie.**
 
 ## Despliegue
 Para desplegar el contrato MockUSDT a la red Sepolia Testnet, usa el siguiente comando:
