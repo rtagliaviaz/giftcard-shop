@@ -12,7 +12,6 @@ export async function deliverGiftCards(order: Orders): Promise<void> {
     const codesRepo = queryRunner.manager.getRepository(GiftCardCodes);
     const itemsRepo = queryRunner.manager.getRepository(OrderItems);
 
-    // Load order items with gift card and its type relation
     const items = await itemsRepo.find({
       where: { order: { id: order.id } },
       relations: ['giftCard', 'giftCard.type'],
@@ -92,7 +91,7 @@ async function getOrderCodes(orderUid: string) {
     const orderRepo = AppDataSource.getRepository(Orders);
     const order = await orderRepo.findOne({
       where: { uid: orderUid },
-      relations: ['orderItems', 'orderItems.giftCard', 'orderItems.giftCard.type', 'orderItems.giftCard.type'], // load related gift card and its type
+      relations: ['orderItems', 'orderItems.giftCard', 'orderItems.giftCard.type', 'orderItems.giftCard.type'], 
     });
 
     if (!order) {
@@ -114,6 +113,6 @@ async function getOrderCodes(orderUid: string) {
       giftCardId: code.id,
       giftCardType: code.giftCard.type.name,
       deliveredAt: code.deliveredAt,
-      expiresAt: code.expiresAt,
+      denomination: code.giftCard.denomination,
     }));
   }
