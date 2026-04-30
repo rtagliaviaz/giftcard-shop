@@ -22,6 +22,6 @@ export class SweepLog {
   @Column({ type: 'bigint' })
   amount!: number; 
 
-  @CreateDateColumn({ name: 'swept_at', type: 'timestamp' })
+  @CreateDateColumn({ name: 'swept_at', type: 'datetime' })
   sweptAt!: Date;
 }
