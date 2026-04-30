@@ -1,9 +1,9 @@
 import request from 'supertest';
-import app from '../app';
-import { AppDataSource } from '../db/data-source';
-import { initializeDatabase } from '../db/init';
+import app from '../../app';
+import { AppDataSource } from '../../db/data-source';
+import { initializeDatabase } from '../../db/init';
 
-import { GiftCardType} from '../entity/GiftCardDatabase';
+import { GiftCardType} from '../../entity/GiftCardDatabase';
 
 beforeAll(async () => {
     process.env.NODE_ENV = 'test';
