@@ -5,6 +5,16 @@ dotenv.config();
 
 
 const config: AppConfigInterface = {
+  email: {
+    host: process.env.EMAIL_HOST,
+    port: parseInt(process.env.EMAIL_PORT as string),
+    secure: process.env.EMAIL_SECURE === 'true',
+    auth: {
+      user: process.env.EMAIL_AUTH_USER,
+      pass: process.env.EMAIL_AUTH_PASS,
+    },
+    from: process.env.EMAIL_FROM,
+  },
   networks:{
     sepolia: {
       NAME: process.env.SEPOLIA_NAME,
