@@ -56,6 +56,7 @@ This document provides an overview of the backend structure, packages used, inst
 - `jest`: Testing framework.
 - `mysql2`: MySQL client for Node.js to interact with the database.
 - `nanoid`: Library for generating unique IDs, used for creating gift card codes and order IDs.
+- `nodemailer`: Library for sending emails, used for sending order confirmations and notifications to customers.
 - `socket.io`: Library for real-time web applications, enabling bidirectional communication between clients and servers.
 - `sqlite3`: Database driver for SQLite for Jest testing with TypeORM.
 - `supertest`: Library for testing HTTP servers, used in conjunction with Jest for API endpoint testing.
@@ -103,6 +104,11 @@ The backend relies on several environment variables for configuration. You can c
 | `BASE_SEPOLIA_USDC_ADDRESS` | USDC contract address on Base Sepolia | `0x036CbD53...` |
 | `BASE_SEPOLIA_DECIMALS` | Decimals for USDC on Base Sepolia | `6` |
 | `MYSQL_*` | Database credentials (host, port, user, password, name) | See `.env.example` |
+| `EMAIL_HOST` | Email server host | `smtp.example.com` |
+| `EMAIL_PORT` | Email server port | `587` |
+| `EMAIL_SECURE` | Indicates if a secure connection should be used (true for port 465, false for 587) | `false` |
+| `EMAIL_AUTH_USER` | Email server user | `user@example.com` |
+| `EMAIL_AUTH_PASS` | Email server password | `password` |
 | `SWEEPER_INTERVAL_MS` | Interval for the sweeper script in milliseconds | `900000` |
 | `SWEEPER_TREASURY_ADDRESS` | Treasury address for the sweeper script | `0x...` |
 | `SWEEPER_MNEMONIC` | Mnemonic for the sweeper script | `test test ... junk` |

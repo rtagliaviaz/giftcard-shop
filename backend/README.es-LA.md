@@ -55,6 +55,7 @@ Este documento proporciona informacion como la estructura del proyecto, paquetes
 - `jest`: Framework de pruebas.
 - `mysql2`: Cliente MySQL para Node.js para interactuar con la base de datos.
 - `nanoid`: Generador de IDs únicos.
+- `nodemailer`: Biblioteca para enviar correos electrónicos, utilizada para enviar confirmaciones de pedidos y notificaciones a los clientes.
 - `socket.io`: Biblioteca para comunicación en tiempo real entre el cliente y el servidor.
 - `sqlite3`: Controlador de base de datos para SQLite, utilizado en pruebas con Jest y TypeORM.
 - `supertest`: Biblioteca para probar servidores HTTP, utilizada junto con Jest para pruebas de endpoints de la API.
@@ -102,6 +103,11 @@ las variables de entorno se deben configurar en un archivo `.env` en la raíz de
 | `BASE_SEPOLIA_USDC_ADDRESS` | Dirección del contrato USDC en Base Sepolia | `0x036CbD53...` |
 | `BASE_SEPOLIA_DECIMALS` | Decimales para USDC en Base Sepolia | `6` |
 | `MYSQL_*` | Credenciales de la base de datos (host, puerto, usuario, contraseña, nombre) | más información en `.env.example` |
+| `EMAIL_HOST` | Host del servidor de correo electrónico | `smtp.example.com` |
+| `EMAIL_PORT` | Puerto del servidor de correo electrónico | `587` |
+| `EMAIL_SECURE` | Indica si se debe usar una conexión segura (true para puerto 465, false para 587) | `false` |
+| `EMAIL_AUTH_USER` | Usuario del servidor de correo electrónico | `user@example.com` |
+| `EMAIL_AUTH_PASS` | Contraseña del servidor de correo electrónico | `password` |
 | `SWEEPER_INTERVAL_MS` | Intervalo para el script sweeper en milisegundos | `900000` |
 | `SWEEPER_TREASURY_ADDRESS` | Dirección de la tesorería para el script sweeper | `0x...` |
 | `SWEEPER_MNEMONIC` | Frase mnemotécnica para la wallet que se usará en el script sweeper | `test test ... junk` |
