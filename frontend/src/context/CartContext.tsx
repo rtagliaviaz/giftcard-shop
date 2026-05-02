@@ -1,13 +1,8 @@
-// contexts/CartContext.tsx
 import { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import type { ReactNode } from 'react';
-import type { CartContextItem, CartContextType} from '../types';
+import type { CartContextItem, CartContextType, AddToCartInput} from '../types';
 
 
-
-
-
-// ===== Context =====
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const useCart = (): CartContextType => {
@@ -18,7 +13,6 @@ export const useCart = (): CartContextType => {
   return context;
 };
 
-// ===== Provider =====
 interface CartProviderProps {
   children: ReactNode;
 }
@@ -38,14 +32,9 @@ export const CartProvider = ({ children }: CartProviderProps) => {
     localStorage.setItem('giftcard_cart', JSON.stringify(cartItems));
   }, [cartItems]);
 
-  interface CartItemInput {
-  giftCardId: number;
-  name: string;
-  image: string;
-  amount: number; // USD value
-}
+  
 
-const addToCart = (item: CartItemInput) => {
+const addToCart = (item: AddToCartInput) => {
   setCartItems(prev => {
     const existing = prev.find(i => i.id === item.giftCardId && i.amount === item.amount);
     if (existing) {
