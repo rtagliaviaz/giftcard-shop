@@ -3,7 +3,7 @@ import { test, expect, vi, beforeEach, afterEach } from 'vitest';
 import { useWebSocket } from '../useWebSocket';
 
 
-// Create a mock socket instance
+// mock socket instance
 const mockSocket = {
   on: vi.fn(),
   off: vi.fn(),
@@ -12,7 +12,7 @@ const mockSocket = {
   connected: true,
 };
 
-// Mock socket.io-client
+// mock socket.io-client
 vi.mock('socket.io-client', () => {
   const mockIo = vi.fn(() => mockSocket);
   return {

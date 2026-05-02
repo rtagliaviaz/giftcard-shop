@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { test, expect, vi, beforeEach, describe } from 'vitest';
 import { CartProvider, useCart } from '../CartContext';
 
-// Helper component to test the context
+// component to test the context
 const TestComponent = () => {
   const { cartItems, addToCart, removeFromCart, updateQuantity, clearCart, getCartTotal, cartItemCount } = useCart();
   return (
@@ -29,7 +29,7 @@ const TestComponent = () => {
 };
 
 describe('CartContext', () => {
-  // Mock localStorage
+  // mock localStorage
   const localStorageMock = (() => {
     let store: Record<string, string> = {};
     return {
@@ -40,7 +40,7 @@ describe('CartContext', () => {
   })();
 
   beforeEach(() => {
-    // Clear localStorage and all mocks before each test
+    // clear localStorage and all mocks before each test
     localStorageMock.clear();
     Object.defineProperty(window, 'localStorage', { value: localStorageMock });
     vi.clearAllMocks();

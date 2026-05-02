@@ -4,7 +4,6 @@ import { vi } from 'vitest';
 import GiftCardList from '../GiftCardList';
 import { fetchGiftCardTypes } from '../../../services/giftCardService';
 
-// Mock the API service using `vi`
 vi.mock('../../../services/giftCardService', () => ({
   fetchGiftCardTypes: vi.fn(),
 }));
