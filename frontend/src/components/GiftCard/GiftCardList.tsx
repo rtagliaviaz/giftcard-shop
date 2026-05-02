@@ -8,20 +8,29 @@ const GiftcardList = () => {
   const navigate = useNavigate();
   const [giftCardTypes, setGiftCardTypes] = useState<GiftCardType[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    setError(null);
     fetchGiftCardTypes()
-      .then(data => setGiftCardTypes(data))
-      .catch(err => console.error('Failed to load gift cards', err))
-      .finally(() => setLoading(false));
+      .then(data => {
+        setGiftCardTypes(data);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error('Failed to load gift cards', err);
+        setError('Unable to connect to the backend service. Please try again later.');
+        setLoading(false);
+      });
   }, []);
-
 
   const handleOnClick = (card: GiftCardType) => {
     navigate(`/giftcard/${card.id}`, { state: { card } });
   };
 
-  if (loading) return <div>Loading gift cards...</div>;
+  if (loading) return <div className={styles.loading}>Loading gift cards...</div>;
+  if (error) return <div className={styles.error}>{error}</div>;
+  if (giftCardTypes.length === 0) return <div className={styles.empty}>No gift cards available.</div>;
 
   return (
     <div className={styles.container}>

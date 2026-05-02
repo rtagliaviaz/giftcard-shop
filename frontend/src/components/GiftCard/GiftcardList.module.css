@@ -1,4 +1,3 @@
-/* GiftcardList.module.css */
 .container {
   max-width: 1200px;
   margin: 0 auto;
@@ -34,7 +33,7 @@
 
 .imageWrapper {
   width: 100%;
-  aspect-ratio: 1 / 1; /* modern, but fallback below */
+  aspect-ratio: 1 / 1; 
   background: var(--code-bg);
   display: flex;
   align-items: center;
@@ -83,6 +82,17 @@
   color: var(--text-h);
   border-top: 1px solid var(--border);
   background: var(--bg);
+}
+
+.loading, .error, .empty {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.1rem;
+}
+.error {
+  color: #d32f2f;
+  background: #ffebee;
+  border-radius: 8px;
 }
 
 @media (max-width: 768px) {
