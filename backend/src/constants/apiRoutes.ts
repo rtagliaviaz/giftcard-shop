@@ -1,6 +1,7 @@
 export const API_ROUTES = {
   HEALTH: '/health',
   CREATE_ORDER: '/create-order',
+  CANCEL_ORDER: '/cancel-order/:uid',
   GET_ORDER_STATUS: '/order-status/:uid',
   GET_ORDER_CODES: '/order-codes/:uid',
   GET_GIFT_CARDS: '/gift-cards',

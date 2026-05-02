@@ -5,6 +5,7 @@ import { generateAddressFromXpub } from '../services/walletService';
 import { nanoid } from 'nanoid';
 import { OrderItem } from '../types/OrdersInterfaces';
 import { SUPPORTED_NETWORKS } from '../constants/supportedNetworks';
+import {SOCKET_EVENTS} from "../constants/socketEvents";
 import config from '../config';
 
 // Helper to get next address index (sequential)
@@ -99,7 +100,6 @@ export const getOrderStatus = async (req: Request, res: Response) => {
 
   if (!order) return res.status(404).json({ error: 'No order found with the provided UID.' });
 
-  // Convert expected amount back to human‑readable (if USDT with 6 decimals)
   const expectedAmountHuman = order.expectedAmount / 1_000_000;
 
   res.status(200).json({
@@ -119,7 +119,7 @@ export const getOrderCodes = async (req: Request, res: Response) => {
   const orderRepo = AppDataSource.getRepository(Orders);
   const order = await orderRepo.findOne({
     where: { uid: uid as string },
-    relations: ['orderItems', 'orderItems.giftCard', 'orderItems.giftCard.type', 'orderItems.giftCard.type'], // load related gift card and its type
+    relations: ['orderItems', 'orderItems.giftCard', 'orderItems.giftCard.type'], // load related gift card and its type
   });
 
   if (!order) return res.status(404).json({ error: 'Order not found' });
@@ -146,3 +146,23 @@ export const getOrderCodes = async (req: Request, res: Response) => {
   res.status(200).json(response);
 
 }
+
+export const cancelOrder = async (req: Request, res: Response) => {
+  const { uid } = req.params;
+  const orderRepo = AppDataSource.getRepository(Orders);
+  const order = await orderRepo.findOne({ where: { uid: uid as string } });
+  if (!order) return res.status(404).json({ error: 'Order not found' });
+  if (order.status !== 'pending') {
+    return res.status(400).json({ error: 'Order cannot be cancelled (already paid or expired)' });
+  }
+  if (new Date() > order.expiresAt) {
+    return res.status(400).json({ error: 'Order already expired' });
+  }
+  order.status = 'cancelled';
+  await orderRepo.save(order);
+  
+  const io = (global as any).io;
+  if (io) io.emit(SOCKET_EVENTS.ORDER_CANCELLED, { uid: order.uid });
+  
+  res.json({ message: 'Order cancelled successfully' });
+};
