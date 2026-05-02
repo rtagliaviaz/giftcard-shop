@@ -5,6 +5,7 @@ Este documento proporciona una visión general de la estructura del frontend, lo
 - [Estructura del Proyecto](#estructura-del-proyecto)
 - [Paquetes](#paquetes)
 - [Instalación](#instalación)
+- [Ejecutar la aplicación](#ejecutar-la-aplicación)
 - [Variables de Entorno](#variables-de-entorno)
 - [Pruebas](#pruebas)
 

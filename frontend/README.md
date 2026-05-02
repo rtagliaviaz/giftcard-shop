@@ -5,7 +5,7 @@ This document provides an overview of the frontend structure, packages, and comp
 - [Project Structure](#project-structure)
 - [Packages](#packages)
 - [Installation](#installation)
-- [Running the App](#running-the-app)
+- [Running the app](#running-the-app)
 - [Environment Variables](#environment-variables)
 - [Testing](#testing)
 
