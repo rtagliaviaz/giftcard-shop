@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom'; // use Link instead of a for SPA navigation
+import { Link } from 'react-router-dom'; 
 import { useCart } from '../../context/CartContext';
 import styles from './Navbar.module.css';
 
