@@ -1,20 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
-import { fetchGiftCardTypeById } from '../../services/giftCardService'; // optional
+import { fetchGiftCardTypeById } from '../../services/giftCardService';
 import styles from './GiftCardDetails.module.css';
-
-interface Denomination {
-  id: number;
-  value: number;
-}
-
-interface GiftCardType {
-  id: number;
-  name: string;
-  image: string;
-  denominations: Denomination[];
-}
+import type { GiftCardType, Denomination } from '../../types';
 
 export default function GiftCardDetails() {
   const { id } = useParams<{ id: string }>();
@@ -22,25 +11,22 @@ export default function GiftCardDetails() {
   const navigate = useNavigate();
   const { addToCart } = useCart();
 
-  // Use state from navigation if available, otherwise fetch
   const [card, setCard] = useState<GiftCardType | null>(location.state?.card || null);
   const [loading, setLoading] = useState(!card);
   const [selectedDenom, setSelectedDenom] = useState<Denomination | null>(null);
   const [added, setAdded] = useState(false);
 
-  // If no state, fetch the gift card type by id (optional but robust)
   useEffect(() => {
     if (card) {
-      // Set default selected denomination to the smallest one
       if (card.denominations.length > 0) {
         setSelectedDenom(card.denominations[0]);
       }
       return;
     }
-    // Fetch from backend if needed
     const loadCard = async () => {
       try {
         const data = await fetchGiftCardTypeById(Number(id));
+        console.log('Fetched gift card type:', data);
         setCard(data);
         if (data.denominations.length) setSelectedDenom(data.denominations[0]);
       } catch (err) {
