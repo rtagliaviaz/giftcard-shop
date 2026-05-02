@@ -1,4 +1,3 @@
-/* OrderStatus.module.css */
 .container {
   max-width: 600px;
   margin: 2rem auto;
@@ -31,6 +30,7 @@
   text-align: center;
   margin-bottom: 1.5rem;
   border-left: 4px solid #e63946;
+  border-right: 4px solid #e63946;
 }
 
 .timerLabel {
@@ -89,7 +89,6 @@
   margin: 0.5rem 0;
 }
 
-/* New styles for address copy button */
 .addressContainer {
   display: flex;
   align-items: center;
@@ -125,7 +124,7 @@
   white-space: nowrap;
 }
 
-/* QR code wrapper */
+
 .qrWrapper {
   display: flex;
   justify-content: center;
@@ -209,7 +208,7 @@
   grid-template-columns: 100px 1fr;
   gap: 1rem;
   margin-bottom: 1rem;
-  align-items: start; /* changed from center to allow message below */
+  align-items: start;
 }
 
 .detailLabel {
@@ -217,7 +216,7 @@
   color: #495057;
 }
 
-/* Container for the address box and the message below it */
+
 .addressContainer {
   display: flex;
   flex-direction: column;
@@ -285,7 +284,6 @@
   margin-top: 0.25rem;
 }
 
-/* Responsive: on narrow screens, reduce label width */
 @media (max-width: 500px) {
   .detailRow {
     grid-template-columns: 80px 1fr;
@@ -295,14 +293,13 @@
 
 
 
-/* Paid view - success icon */
 .successIcon {
   font-size: 3rem;
   text-align: center;
   margin-bottom: 0.5rem;
 }
 
-/* List of gift card codes */
+
 .codesList {
   display: flex;
   flex-direction: column;
@@ -310,7 +307,7 @@
   margin: 1.5rem 0;
 }
 
-/* Each code card */
+
 .codeCard {
   background: #f8f9fa;
   border-radius: 16px;
@@ -324,17 +321,45 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
-/* Header inside code card (gift card type name) */
+
 .codeHeader {
   margin-bottom: 0.5rem;
   font-size: 1rem;
   color: #495057;
 }
 
-/* Note / footnote */
+
 .note {
   font-size: 0.8rem;
   color: #6c757d;
   text-align: center;
   margin-top: 1rem;
+}
+
+
+.cancelButton {
+  background: #fff;
+  border: 1px solid #dc3545;
+  color: #dc3545;
+  border-radius: 40px;
+  padding: 0.5rem 1.2rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 1rem;
+  display: block;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cancelButton:hover:not(:disabled) {
+  background: #dc3545;
+  color: white;
+}
+
+.cancelButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
