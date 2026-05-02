@@ -26,7 +26,7 @@ export class Orders {
     email!: string; // Buyer's email address
 
     @Column({ type: "varchar", length: 20, default: "pending" })
-    status!: string; // Order status: "pending", "paid", "expired"
+    status!: string; // Order status: "pending", "paid", "expired", "cancelled"
 
     @Column({ type: "bigint", name: "expected_amount" })
     expectedAmount!: number
