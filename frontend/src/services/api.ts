@@ -15,3 +15,6 @@ export const getOrderStatus = (uid: string) =>
 
 export const getOrderCode = (uid: string) =>
   api.get<OrderCodeResponse>(API_ROUTES.ORDER_CODES(uid));
+
+export const cancelOrder = (uid: string) =>
+  api.post(API_ROUTES.CANCEL_ORDER(uid));
