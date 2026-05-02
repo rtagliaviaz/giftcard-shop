@@ -177,7 +177,7 @@ The backend relies on several environment variables for configuration. You can c
   "address": "derived_wallet_address_for_payment",
   "expectedAmount": "50.000000", // human readable amount with decimals
   "expiresAt": "2024-01-01T00:00:00.000Z",
-  "status": "pending", // or "paid", "expired"
+  "status": "pending", // possible states: "pending", "paid", "cancelled", "expired"
   "network": "sepolia", // or "base-sepolia"
   "currency": "USDT" // or "USDC"
 }

@@ -175,7 +175,7 @@ las variables de entorno se deben configurar en un archivo `.env` en la raíz de
   "address": "derived_wallet_address_for_payment",
   "expectedAmount": "50.000000", // cantidad legible por humanos con decimales
   "expiresAt": "2024-01-01T00:00:00.000Z",
-  "status": "pending", // o "paid", "expired"
+  "status": "pending", // estados posibles: "pending", "paid", "cancelled", "expired"
   "network": "sepolia", // o "base-sepolia"
   "currency": "USDT" // o "USDC"
 }
