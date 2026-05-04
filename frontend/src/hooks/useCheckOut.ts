@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createOrder } from '../services/api';
-import type { CreateOrderBody, CreateOrderDataResponse, UseCheckoutProps} from '../types';
+import type { CreateOrderRequest, CreateOrderResponse, UseCheckoutProps} from '../types';
 
 
 export const useCheckout = ({ cartItems, email, selectedCurrency, clearCart }: UseCheckoutProps) => {
@@ -20,7 +20,7 @@ export const useCheckout = ({ cartItems, email, selectedCurrency, clearCart }: U
     setLoading(true);
     try {
       const totalUSD = cartItems.reduce((sum, item) => sum + item.amount * item.quantity, 0);
-      const body: CreateOrderBody = {
+      const body: CreateOrderRequest = {
         email,
         currency: selectedCurrency,
         items: cartItems.map((item) => ({
@@ -35,7 +35,7 @@ export const useCheckout = ({ cartItems, email, selectedCurrency, clearCart }: U
       };
 
       const apiResponse = await createOrder(body);
-      const data = apiResponse.data as CreateOrderDataResponse;
+      const data = apiResponse.data as CreateOrderResponse;
 
       clearCart();
       navigate(`/order/${data.uid}`);
