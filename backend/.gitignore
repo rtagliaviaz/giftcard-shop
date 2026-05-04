@@ -2,6 +2,7 @@ node_modules/
 .env
 package-lock.json
 todo.md
+dist
 /src/generated/prisma
 documentation.md
 /database
