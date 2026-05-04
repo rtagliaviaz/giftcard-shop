@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { CreateOrderRequest, OrderCodeResponse, OrderStatusResponse } from '../types';
+import type { CreateOrderRequest, CodeItem, OrderStatusResponse } from '../types';
 import { API_ROUTES } from '../constants/apiRoutes';
 
 const api = axios.create({
@@ -14,7 +14,7 @@ export const getOrderStatus = (uid: string) =>
   api.get<OrderStatusResponse>(API_ROUTES.ORDER_STATUS(uid));
 
 export const getOrderCode = (uid: string) =>
-  api.get<OrderCodeResponse>(API_ROUTES.ORDER_CODES(uid));
+  api.get<CodeItem[]>(API_ROUTES.ORDER_CODES(uid));
 
 export const cancelOrder = (uid: string) =>
   api.post(API_ROUTES.CANCEL_ORDER(uid));
