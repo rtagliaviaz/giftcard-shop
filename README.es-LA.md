@@ -15,6 +15,13 @@
 
 Este proyecto es una tienda de tarjetas de regalo que acepta pagos en criptomonedas. Permite a los usuarios comprar tarjetas de regalo digitales puediendo pagar con distintas criptomonedas sin necesidad de crear una cuenta, proporcionando una forma conveniente y segura de comprar tarjetas de regalo en línea.
 
+## Características
+- Acepta pagos en USDT y USDC en las testnets de Sepolia y Base Sepolia.
+- Genera direcciones de wallet únicas para cada compra de tarjeta de regalo utilizando la derivación de direcciones XPUB.
+- Detección de pagos en tiempo real con WebSocket.
+- Script de sweeper para consolidar fondos de las direcciones generadas a una wallet segura.
+- Tests (Jest para backend, Vitest para frontend).
+
 
 # Indice
 - [Demo](#demo)

@@ -16,6 +16,14 @@ English | [Spanish](./README.es-LA.md)
 This project is a gift card shop that accepts cryptocurrency payments. It allows users to purchase gift cards using various cryptocurrencies, providing a convenient and secure way to buy gift cards online, because the project uses testnets. You can obtain test ETH for free from the faucets listed below.
 
 
+## Features
+- Accept USDT and USDC payments on Sepolia and Base Sepolia testnets.
+- Generate unique wallet addresses for each gift card purchase using XPUB address derivation.
+- Real-time payment detection with WebSocket.
+- Sweeper script to consolidate funds from generated addresses to a secure wallet.
+- Comprehensive tests (Jest for backend, Vitest for frontend).
+
+
 # Index
 - [Demo](#demo)
 - [Video Demo](#video-demo)
@@ -27,6 +35,8 @@ This project is a gift card shop that accepts cryptocurrency payments. It allows
 - [Frontend](./frontend/README.md)
 - [Contracts](./contracts/README.md)
 - [Troubleshooting](#troubleshooting)
+
+
 
 
 ## Demo
