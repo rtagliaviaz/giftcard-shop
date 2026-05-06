@@ -64,7 +64,7 @@ para agregar la red de `Base Sepolia` a Metamask, puedes seguir los pasos de est
 
 ## Faucets
 ### USDT 
-- para este proyecto cree un token USDT simulado en la testnet de Sepolia, si usas Metamask puedes ir a la testnet de sepolia, importar el token y agregar la dirección del contrato del token y mintear algunos tokens USDT de prueba a tu billetera. La dirección del contrato del token es: `0x56C60aa5a381bBDFfDfdB6045c772C67f50F5C90` (nota: este es un token simulado y no tiene valor real).
+- para este proyecto cree un token USDT simulado en la testnet de Sepolia, si usas Metamask puedes ir a la testnet de sepolia, importar el token y agregar la dirección del contrato del token y mintear algunos tokens USDT de prueba a tu billetera. La dirección del contrato del token es: `0x6920e98F7dAA4F6c89C4baadB115daEF1b31EeA7` (nota: este es un token simulado y no tiene valor real).
 
 ### USDC
 - https://faucet.circle.com/ : solo necesitas la dirección de tu wallet y seleccionar el token USDC en Base Sepolia Testnet.

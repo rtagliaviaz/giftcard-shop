@@ -71,7 +71,7 @@ To add the `Base Sepolia` network to Metamask, you can follow the steps of this 
 ## Faucets
 
 ### USDT 
-- for this project I made a mock USDT token on Sepolia testnet, if you use Metamask you can go to Sepolia, import token and add the token contract address and mint some test USDT tokens to your wallet. The token contract address is: `0x56C60aa5a381bBDFfDfdB6045c772C67f50F5C90` (note: this is a mock token and has no real value).
+- for this project I made a mock USDT token on Sepolia testnet, if you use Metamask you can go to Sepolia, import token and add the token contract address and mint some test USDT tokens to your wallet. The token contract address is: `0x6920e98F7dAA4F6c89C4baadB115daEF1b31EeA7` (note: this is a mock token and has no real value).
 
 ### USDC
 - https://faucet.circle.com/ : just enter your wallet address and select the USDC token on the Base Sepolia testnet to receive test USDC.
