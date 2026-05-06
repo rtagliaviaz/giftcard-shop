@@ -1,9 +1,15 @@
+// @ts-nocheck
 import { jest } from '@jest/globals';
-import { AppDataSource } from '../../db/data-source';
-import { initializeDatabase } from '../../db/init';
-import { Orders, OrderItems, GiftCardCodes, GiftCard, GiftCardType } from '../../entity/GiftCardDatabase';
-import { deliverGiftCards } from '../../services/giftCardService';
-import { SOCKET_EVENTS } from '../../constants/socketEvents';
+
+jest.unstable_mockModule('../../services/emailService', () => ({
+  sendOrderConfirmationEmail: jest.fn().mockResolvedValue(undefined),
+}));
+
+const { AppDataSource } = await import('../../db/data-source');
+const { initializeDatabase } = await import('../../db/init');
+const { Orders, OrderItems, GiftCardCodes, GiftCard, GiftCardType } = await import('../../entity/GiftCardDatabase');
+const { deliverGiftCards } = await import('../../services/giftCardService');
+const { SOCKET_EVENTS } = await import('../../constants/socketEvents');
 
 describe('deliverGiftCards (integration)', () => {
   beforeAll(async () => {
@@ -83,6 +89,7 @@ describe('deliverGiftCards (integration)', () => {
       expect.objectContaining({ uid: order.uid })
     );
 
+    const { sendOrderConfirmationEmail } = await import('../../services/emailService');
+    expect(sendOrderConfirmationEmail).toHaveBeenCalledWith(order.email, order.uid);
   });
 });
-
