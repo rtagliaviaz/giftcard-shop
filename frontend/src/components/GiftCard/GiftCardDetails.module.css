@@ -23,6 +23,7 @@
 .image {
   width: 100%;
   max-width: 400px;
+  height: auto;
   border-radius: 20px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
@@ -39,6 +40,7 @@
   font-size: 2rem;
   color: var(--text-h);
   margin-bottom: 1rem;
+  line-height: 1.2;
 }
 
 .amountLabel {
@@ -67,16 +69,22 @@
   margin-top: 1rem;
 }
 
+.addButton, .cartButton {
+  flex: 1;
+  min-width: 140px;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.2s;
+  border-radius: 40px;
+}
+
 .addButton {
   background: var(--accent);
   color: white;
   border: none;
-  padding: 0.75rem 1.5rem;
-  border-radius: 40px;
-  font-weight: 600;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: transform 0.2s, background 0.2s;
 }
 
 .addButton:hover {
@@ -88,11 +96,6 @@
   background: transparent;
   border: 1px solid var(--border);
   color: var(--text-h);
-  padding: 0.75rem 1.5rem;
-  border-radius: 40px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background 0.2s;
 }
 
 .cartButton:hover {
@@ -101,10 +104,10 @@
 
 .successMessage {
   margin-top: 1rem;
-  padding: 0.5rem;
+  padding: 0.75rem;
   background: var(--accent-bg);
   color: var(--accent);
-  border-radius: 8px;
+  border-radius: 12px;
   text-align: center;
   font-weight: 500;
 }
@@ -118,13 +121,70 @@
 }
 
 @media (max-width: 768px) {
+  .container {
+    margin: 1rem;
+    padding: 1.25rem;
+  }
+
   .content {
     flex-direction: column;
+    gap: 1.5rem;
   }
+
+  .imageSection {
+    min-width: auto;
+  }
+
+  .image {
+    max-width: 280px;
+  }
+
+  .formSection {
+    padding: 1.5rem;
+  }
+
+  .title {
+    font-size: 1.75rem;
+  }
+
+  .addButton, .cartButton {
+    min-width: 120px;
+    padding: 0.7rem 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
   .container {
+    margin: 0.5rem;
     padding: 1rem;
   }
+
+  .formSection {
+    padding: 1rem;
+  }
+
   .title {
     font-size: 1.5rem;
+  }
+
+  .buttonGroup {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .addButton, .cartButton {
+    width: 100%;
+    min-width: unset;
+    padding: 0.75rem;
+  }
+
+  .select {
+    padding: 0.65rem;
+    font-size: 0.95rem;
+  }
+
+  .successMessage {
+    padding: 0.6rem;
+    font-size: 0.9rem;
   }
 }
