@@ -21,4 +21,6 @@ module.exports = {
   transformIgnorePatterns: [
     'node_modules/(?!(?:@scure|@noble|ethers)/)',
   ],
+  testPathIgnorePatterns: ['/node_modules/', '/dist/'],
+  modulePathIgnorePatterns: ['/dist/'],
 };
