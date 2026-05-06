@@ -1,7 +1,7 @@
 import { AppDataSource } from '../db/data-source';
 import { Request, Response } from 'express';
-import { GiftCard, GiftCardType, GiftCardCodes } from '../entity/GiftCardDatabase';
-import { GiftCardTypeResponse, GiftCardTypeInterface, GiftCardTypeByIdResponse } from '../types/GiftCardInterfaces';
+import { GiftCardType, GiftCardCodes } from '../entity/GiftCardDatabase';
+import { GiftCardTypeResponse, GiftCardTypeByIdResponse } from '../types/GiftCardInterfaces';
 
 export const getGiftCardTypes = async (req: Request, res: Response) => {
   try {
@@ -16,7 +16,6 @@ export const getGiftCardTypes = async (req: Request, res: Response) => {
     for (const type of types) {
       const denominationsWithStock = [];
       for (const denom of type.denominations) {
-        // Count available (unused) codes for this denomination
         const availableCount = await AppDataSource.getRepository(GiftCardCodes).count({
           where: { giftCard: { id: denom.id }, used: false },
         });
@@ -27,13 +26,15 @@ export const getGiftCardTypes = async (req: Request, res: Response) => {
           });
         }
       }
+
+      denominationsWithStock.sort((a, b) => a.value - b.value);
       if (denominationsWithStock.length > 0) {
         result.push({
           id: type.id,
           name: type.name,
           image: type.image,
           denominations: denominationsWithStock,
-        });
+        } as GiftCardTypeResponse);
       }
     }
     res.status(200).json(result as GiftCardTypeResponse[]);
@@ -42,7 +43,6 @@ export const getGiftCardTypes = async (req: Request, res: Response) => {
     res.status(500).json({ error: 'Failed to fetch gift card types' });
   }
 };
-
 
 export const getGiftCardTypeById = async (req: Request, res: Response) => {
   const { id } = req.params;
@@ -66,6 +66,8 @@ export const getGiftCardTypeById = async (req: Request, res: Response) => {
         });
       }
     }
+
+    denominationsWithStock.sort((a, b) => a.value - b.value);
     res.status(200).json({
       id: type.id,
       name: type.name,
