@@ -9,6 +9,7 @@ await jest.unstable_mockModule('../db/init', () => ({
 
 await jest.unstable_mockModule('../services/eventListener', () => ({
   startEventListeners: jest.fn(),
+  startListenerIfNeeded: jest.fn(),
 }));
 
 await jest.unstable_mockModule('socket.io', () => ({
