@@ -43,7 +43,7 @@ This project is a gift card shop that accepts cryptocurrency payments. It allows
 https://rtagliavia.net/
 
 ## Video Demo
-
+[![Video Demo](https://img.youtube.com/vi/cgkJl3kQnC8/0.jpg)](https://www.youtube.com/watch?v=cgkJl3kQnC8)
 
 ## Project Structure
 

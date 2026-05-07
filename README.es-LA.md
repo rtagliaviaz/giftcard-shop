@@ -39,7 +39,7 @@ Este proyecto es una tienda de tarjetas de regalo que acepta pagos en criptomone
 https://rtagliavia.net/
 
 ## Video Demo
-[![Video Demo](https://img.youtube.com/vi/9n2l8sXo5j0/0.jpg)](https://www.youtube.com/watch?v=9n2l8sXo5j0)
+[![Video Demo](https://img.youtube.com/vi/cgkJl3kQnC8/0.jpg)](https://www.youtube.com/watch?v=cgkJl3kQnC8)
 
 ## Estructura del Proyecto
 ```
