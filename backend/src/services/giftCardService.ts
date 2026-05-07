@@ -46,7 +46,7 @@ export async function deliverGiftCards(order: Orders): Promise<void> {
     await sendOrderCodesWithSocket(order);
     await sendOrderConfirmationEmail(order.email, order.uid);
   } catch (error) {
-    await queryRunner.rollbackTransaction();
+      await queryRunner.rollbackTransaction();
     console.error(`Failed to deliver gift cards for order ${order.id}:`, error);
     throw error;
   } finally {
