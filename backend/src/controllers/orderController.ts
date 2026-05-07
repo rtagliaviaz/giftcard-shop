@@ -7,6 +7,8 @@ import { OrderItem } from '../types/OrdersInterfaces';
 import { SUPPORTED_NETWORKS } from '../constants/supportedNetworks';
 import {SOCKET_EVENTS} from "../constants/socketEvents";
 import config from '../config';
+import { startListenerIfNeeded } from '../services/eventListener';
+
 
 // Helper to get next address index (sequential)
 async function getNextAddressIndex(): Promise<number> {
@@ -73,7 +75,7 @@ export const createOrder = async (req: Request, res: Response) => {
       })
     );
     await itemsRepo.save(orderItems);
-
+    await startListenerIfNeeded(network);
     await queryRunner.commitTransaction();
 
     res.status(201).json({
