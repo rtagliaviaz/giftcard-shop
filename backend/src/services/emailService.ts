@@ -13,6 +13,9 @@ const transporter = nodemailer.createTransport({
 
 
 export async function sendOrderConfirmationEmail(to: string, orderUid: string): Promise<void> {
+  if (to.endsWith('@telegram.bot')) {
+    return;
+  }
   const frontendUrl = config.clientUrl;
   const orderLink = `${frontendUrl}/order/${orderUid}`;
   const subject = `Your Gift Card Order #${orderUid}`;
