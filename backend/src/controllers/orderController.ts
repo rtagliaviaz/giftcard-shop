@@ -23,7 +23,7 @@ async function getNextAddressIndex(): Promise<number> {
 }
 
 export const createOrder = async (req: Request, res: Response) => {
-  const { email, items, totalAmountRaw, network } = req.body;
+  const { email, items, totalAmountRaw, network, chatId } = req.body;
 
   if (!email || !items?.length) {
     return res.status(400).json({ error: 'Missing email or items' });
@@ -38,7 +38,7 @@ export const createOrder = async (req: Request, res: Response) => {
 
   const addressIndex = await getNextAddressIndex();
   const address = generateAddressFromXpub(addressIndex);
-  const expiresAt = new Date(Date.now() + 20 * 60 * 1000); 
+  const expiresAt = new Date(Date.now() + 20 * 60 * 1000);
 
   const uid = `ORD_${nanoid(10)}`;
 
@@ -54,6 +54,7 @@ export const createOrder = async (req: Request, res: Response) => {
       addressIndex,
       currency,
       email,
+      chatId,
       expectedAmount: totalAmountRaw,
       status: 'pending',
       expiresAt,
@@ -65,7 +66,7 @@ export const createOrder = async (req: Request, res: Response) => {
     const savedOrder = await orderRepo.save(newOrder);
     const itemsRepo = queryRunner.manager.getRepository(OrderItems);
 
-    const orderItems = items.map((item: OrderItem) => 
+    const orderItems = items.map((item: OrderItem) =>
       itemsRepo.create({
         order: savedOrder,
         giftCardId: item.giftCardId,
@@ -121,7 +122,7 @@ export const getOrderCodes = async (req: Request, res: Response) => {
   const orderRepo = AppDataSource.getRepository(Orders);
   const order = await orderRepo.findOne({
     where: { uid: uid as string },
-    relations: ['orderItems', 'orderItems.giftCard', 'orderItems.giftCard.type'], // load related gift card and its type
+    relations: ['orderItems', 'orderItems.giftCard', 'orderItems.giftCard.type'], 
   });
 
   if (!order) return res.status(404).json({ error: 'Order not found' });
