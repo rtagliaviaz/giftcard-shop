@@ -26,6 +26,7 @@ export interface AppConfigInterface {
     };
     port: string | undefined;
     clientUrl: string | undefined;
+    telegramBotServiceUrl: string | undefined;
     mysql: {
         giftcardShopDb: MySQLConfigInterface;
     }

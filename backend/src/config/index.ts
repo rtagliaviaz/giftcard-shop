@@ -38,6 +38,7 @@ const config: AppConfigInterface = {
   },
   port: process.env.PORT,
   clientUrl: process.env.CLIENT_URL,
+  telegramBotServiceUrl: process.env.TELEGRAM_BOT_SERVICE_URL,
   mysql: {
     giftcardShopDb: {
       host: process.env.MYSQL_DATABASE_HOST,
