@@ -298,7 +298,7 @@ The backend integrates with external services via webhooks to send real-time not
 ### Telegram Bot Webhook
 After an order is paid and gift card codes are delivered, the backend sends a `POST` request to the configured Telegram bot webhook URL.
 
-- **Endpoint**: `POST /api/webhook/payment-confirmed` (on the Telegram bot service)
+- **Endpoint**: `POST /webhook/payment-confirmed` (on the Telegram bot service)
 - **Trigger**: Called automatically after `deliverGiftCards` completes successfully.
 - **Condition**: Only sent if the order has a `chatId` (orders created via Telegram bot).
 

@@ -295,7 +295,7 @@ El backend del proyecto incluye integraciones de webhook para notificar a servic
 ### Telegram Bot Webhook
 Luego de que una orden ha sido pagada, el backend envia una notificación al bot de Telegram mediante un webhook para que el bot pueda enviar un mensaje al usuario con los códigos de las tarjetas de regalo adquiridas.
 
-- **Endpoint del Webhook**: `POST /api/webhook/payment-confirmed`
+- **Endpoint del Webhook**: `POST /webhook/payment-confirmed`
 - **Trigger**: Se activa cuando una orden ha sido pagada exitosamente.
 - **Condiciones**: La orden debe tener un `chatId` asociado para que el bot pueda enviar el mensaje al usuario correspondiente.
 
