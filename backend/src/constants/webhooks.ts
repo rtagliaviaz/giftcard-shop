@@ -1,3 +1,3 @@
 export const WEBHOOKS = {
-  PAYMENT_CONFIRMED: '/webhook/payment-confirmed'
+  PAYMENT_CONFIRMED: '/api/webhook/payment-confirmed'
 }
