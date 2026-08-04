@@ -28,6 +28,9 @@ export class Orders {
     @Column({ type: "varchar", length: 64, nullable: true })
     chatId!: string | null; // Telegram chat ID
 
+    @Column({ type: "varchar", length: 5, nullable: true, default: 'en' })
+    language!: string; // Idioma del usuario (en, es)
+
     @Column({ type: "varchar", length: 20, default: "pending" })
     status!: string; // Order status: "pending", "paid", "expired", "cancelled"
 
