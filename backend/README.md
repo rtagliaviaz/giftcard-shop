@@ -11,6 +11,7 @@ This document provides an overview of the backend structure, packages used, inst
 - [API Endpoints](#api-endpoints)
 - [Database](#database)
 - [Socket.io Events](#socketio-events)
+- [Webhook Integrations](#webhook-integrations)
 - [Scripts](#scripts)
 
 ## Project Structure
@@ -88,6 +89,7 @@ The backend relies on several environment variables for configuration. You can c
 |----------|-------------|---------|
 | `PORT` | Port for the Express server | `3000` |
 | `CLIENT_URL` | Frontend URL | `http://localhost:3001` |
+| `TELEGRAM_BOT_SERVICE_URL` | URL of the Telegram bot service | `http://localhost:3002` |
 | `XPUB` | Extended public key (derived from same mnemonic) | `xpub6...` |
 | `SEPOLIA_NAME` | Sepolia network name | `sepolia` |
 | `SEPOLIA_CHAIN_ID` | Sepolia chain ID | `11155111` |
@@ -289,6 +291,26 @@ The database tables and relationships are defined in the `database/init.sql` fil
 - `order-paid`: Custom event emitted to notify the client that their order has been paid.
 - `cancel-order`: Custom event emitted to notify the client that their order has been canceled.
 - `order-cancelled`: Custom event emitted to notify the client that their order has been canceled by the system due to non-payment within the time limit.
+
+## Webhook Integrations
+The backend integrates with external services via webhooks to send real-time notifications.
+
+### Telegram Bot Webhook
+After an order is paid and gift card codes are delivered, the backend sends a `POST` request to the configured Telegram bot webhook URL.
+
+- **Endpoint**: `POST /api/webhook/payment-confirmed` (on the Telegram bot service)
+- **Trigger**: Called automatically after `deliverGiftCards` completes successfully.
+- **Condition**: Only sent if the order has a `chatId` (orders created via Telegram bot).
+
+#### Payload
+
+```json
+{
+  "orderId": "ORD_1234567890",
+  "chatId": "123456789",
+  "codes": ["CODE-123456", "CODE-789012"]
+}
+```
 
 ## Scripts
 

@@ -11,6 +11,7 @@ Este documento proporciona informacion como la estructura del proyecto, paquetes
 - [Endpoints de la API](#endpoints-de-la-api)
 - [Base de Datos](#base-de-datos)
 - [Eventos de Socket.io](#eventos-de-socketio)
+- [Integraciones de Webhook](#integraciones-de-webhook)
 - [Scripts](#scripts)
 
 ## Estructura del Proyecto
@@ -87,6 +88,7 @@ las variables de entorno se deben configurar en un archivo `.env` en la raíz de
 |----------|-------------|---------|
 | `PORT` | Puerto para el servidor Express | `3000` |
 | `CLIENT_URL` | URL del frontend | `http://localhost:3001` |
+| `TELEGRAM_BOT_SERVICE_URL` | URL del servicio del bot de Telegram | `http://localhost:3002` |
 | `XPUB` | Clave pública extendida (derivada de la misma frase semilla) | `xpub6...` |
 | `SEPOLIA_NAME` | Nombre de la red Sepolia | `sepolia` |
 | `SEPOLIA_CHAIN_ID` | ID de la cadena Sepolia | `11155111` |
@@ -286,6 +288,26 @@ todas las tablas y relaciones de la base de datos se definen en el archivo [data
 - `order-paid`: Evento personalizado que se emite para notificar al cliente que su orden ha sido pagada.
 - `cancel-order`: Evento personalizado que se emite para notificar al cliente que su orden ha sido cancelada.
 - `order-cancelled`: Evento personalizado que se emite para notificar al cliente que su orden ha sido cancelada por el sistema debido a la falta de pago dentro del tiempo límite.
+
+## Integraciones de Webhook
+El backend del proyecto incluye integraciones de webhook para notificar a servicios externos sobre eventos importantes.
+
+### Telegram Bot Webhook
+Luego de que una orden ha sido pagada, el backend envia una notificación al bot de Telegram mediante un webhook para que el bot pueda enviar un mensaje al usuario con los códigos de las tarjetas de regalo adquiridas.
+
+- **Endpoint del Webhook**: `POST /api/webhook/payment-confirmed`
+- **Trigger**: Se activa cuando una orden ha sido pagada exitosamente.
+- **Condiciones**: La orden debe tener un `chatId` asociado para que el bot pueda enviar el mensaje al usuario correspondiente.
+
+#### Payload del Webhook
+
+```json
+{
+  "orderId": "ORD_1234567890",
+  "chatId": "123456789",
+  "codes": ["CODE-123456", "CODE-789012"]
+}
+```
 
 ## Scripts
 
