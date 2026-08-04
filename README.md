@@ -27,6 +27,7 @@ This project is a gift card shop that accepts cryptocurrency payments. It allows
 # Index
 - [Demo](#demo)
 - [Video Demo](#video-demo)
+- [Related Projects](#related-projects)
 - [Project Structure](#project-structure)
 - [Security](#security)
 - [Test Wallet](#test-wallet)
@@ -44,6 +45,10 @@ https://rtagliavia.net/
 
 ## Video Demo
 [Video Demo](https://www.youtube.com/watch?v=9A8YDkaWCcY)
+
+## Related Projects
+
+- **[Telegram Bot for Giftcard Shop](https://github.com/rtagliaviaz/giftcard-shop-telegram-bot)** – Telegram bot that enables users to purchase gift cards with USDC/USDT by generating deposit addresses and automatically delivering codes upon payment confirmation. Features cart management, bilingual support (ES/EN), real-time payment notifications via webhook.
 
 ## Project Structure
 

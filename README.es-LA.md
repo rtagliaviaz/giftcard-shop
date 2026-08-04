@@ -26,6 +26,7 @@ Este proyecto es una tienda de tarjetas de regalo que acepta pagos en criptomone
 # Indice
 - [Demo](#demo)
 - [Video Demo](#video-demo)
+- [Proyectos Relacionados](#proyectos-relacionados)
 - [Estructura del Proyecto](#estructura-del-proyecto)
 - [Seguridad](#seguridad)
 - [Wallet de Prueba](#wallet-de-prueba)
@@ -40,6 +41,10 @@ https://rtagliavia.net/
 
 ## Video Demo
 [Video Demo](https://www.youtube.com/watch?v=9A8YDkaWCcY)
+
+## Proyectos Relacionados
+
+- **[Telegram Bot for Giftcard Shop](https://github.com/rtagliaviaz/giftcard-shop-telegram-bot)** – Bot de Telegram que permite a los usuarios comprar tarjetas de regalo con USDC/USDT generando direcciones de depósito y entregando automáticamente los códigos tras la confirmación del pago. Características: gestión del carrito, soporte bilingüe (ES/EN), notificaciones de pago en tiempo real mediante webhook.
 
 ## Estructura del Proyecto
 ```
