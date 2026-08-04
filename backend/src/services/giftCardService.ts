@@ -73,6 +73,7 @@ async function notifyBot(order: Orders): Promise<void> {
       orderId: order.uid,
       chatId: order.chatId,
       codes: codeStrings,
+      language: order.language || 'en',
     };
 
     await axios.post(url, payload);
