@@ -308,7 +308,8 @@ After an order is paid and gift card codes are delivered, the backend sends a `P
 {
   "orderId": "ORD_1234567890",
   "chatId": "123456789",
-  "codes": ["CODE-123456", "CODE-789012"]
+  "codes": ["CODE-123456", "CODE-789012"],
+  "language": "en"
 }
 ```
 

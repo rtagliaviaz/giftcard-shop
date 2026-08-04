@@ -305,7 +305,8 @@ Luego de que una orden ha sido pagada, el backend envia una notificación al bot
 {
   "orderId": "ORD_1234567890",
   "chatId": "123456789",
-  "codes": ["CODE-123456", "CODE-789012"]
+  "codes": ["CODE-123456", "CODE-789012"],
+  "language": "en"
 }
 ```
 
