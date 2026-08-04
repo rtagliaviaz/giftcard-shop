@@ -25,6 +25,9 @@ export class Orders {
     @Column({ type: "varchar", length: 255})
     email!: string; // Buyer's email address
 
+    @Column({ type: "varchar", length: 64, nullable: true })
+    chatId!: string | null; // Telegram chat ID
+
     @Column({ type: "varchar", length: 20, default: "pending" })
     status!: string; // Order status: "pending", "paid", "expired", "cancelled"
 
