@@ -23,7 +23,7 @@ async function getNextAddressIndex(): Promise<number> {
 }
 
 export const createOrder = async (req: Request, res: Response) => {
-  const { email, items, totalAmountRaw, network, chatId } = req.body;
+  const { email, items, totalAmountRaw, network, chatId, language } = req.body;
 
   if (!email || !items?.length) {
     return res.status(400).json({ error: 'Missing email or items' });
@@ -55,6 +55,7 @@ export const createOrder = async (req: Request, res: Response) => {
       currency,
       email,
       chatId,
+      language: language || 'en',
       expectedAmount: totalAmountRaw,
       status: 'pending',
       expiresAt,
