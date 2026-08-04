@@ -2,6 +2,9 @@ import { AppDataSource } from '../db/data-source';
 import { Orders, OrderItems, GiftCardCodes } from '../entity/GiftCardDatabase';
 import { sendOrderConfirmationEmail } from './emailService';
 import { SOCKET_EVENTS } from '../constants/socketEvents';
+import { WEBHOOKS } from '../constants/webhooks';
+import config from '../config';
+import axios from 'axios';
 
 export async function deliverGiftCards(order: Orders): Promise<void> {
   const queryRunner = AppDataSource.createQueryRunner();
@@ -44,6 +47,7 @@ export async function deliverGiftCards(order: Orders): Promise<void> {
     await queryRunner.commitTransaction();
 
     await sendOrderCodesWithSocket(order);
+    await notifyBot(order);
     await sendOrderConfirmationEmail(order.email, order.uid);
   } catch (error) {
       await queryRunner.rollbackTransaction();
@@ -53,6 +57,32 @@ export async function deliverGiftCards(order: Orders): Promise<void> {
     await queryRunner.release();
   }
 }
+
+async function notifyBot(order: Orders): Promise<void> {
+
+  const url = config.telegramBotServiceUrl+`${WEBHOOKS.PAYMENT_CONFIRMED}`;
+
+  if (!order.chatId) return;
+
+  try {
+    const codes = await getOrderCodes(order.uid);
+    const codeStrings = codes.map(c => c.code);
+
+
+    const payload = {
+      orderId: order.uid,
+      chatId: order.chatId,
+      codes: codeStrings,
+    };
+
+    await axios.post(url, payload);
+
+  } catch (webhookError) {
+    console.error(`Failed to notify bot for order ${order.uid}:`, webhookError);
+  }
+
+}
+
 
 async function sendOrderCodesWithSocket(order: Orders): Promise<void> {
   const io = (global as any).io;
